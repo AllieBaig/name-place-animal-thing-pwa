@@ -9,9 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
         loadEntries();
     }
 
-    // Initial call to set the default placeholder
     updateInputPlaceholder();
+    displayScores(); // Initialize scores display
 });
+
+let playerScore = 0;
+let computerScore = 0;
 
 function guestLogin() {
     const guestId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
@@ -21,6 +24,7 @@ function guestLogin() {
     loginOptions.style.display = 'none';
     appContent.style.display = 'block';
     loadEntries();
+    displayScores(); // Initialize scores display
 }
 
 function updateInputPlaceholder() {
@@ -53,6 +57,24 @@ const computerEntries = {
     Song: ["Bohemian Rhapsody", "Imagine", "Hey Jude", "Like a Rolling Stone", "Smells Like Teen Spirit"],
 };
 
+function calculateScore(playerEntry, computerEntry) {
+    const playerLower = playerEntry.toLowerCase();
+    const computerLower = computerEntry.toLowerCase();
+    let score = 0;
+    const matchedLetters = new Set();
+
+    for (let i = 0; i < playerLower.length; i++) {
+        const char = playerLower[i];
+        if (computerLower.includes(char) && !matchedLetters.has(char)) {
+            const playerOccurrences = playerLower.split(char).length - 1;
+            const computerOccurrences = computerLower.split(char).length - 1;
+            score += Math.min(playerOccurrences, computerOccurrences);
+            matchedLetters.add(char);
+        }
+    }
+    return score;
+}
+
 function addItem(player) {
     const categoryDropdown = document.getElementById('category');
     const itemInput = document.getElementById('item');
@@ -79,13 +101,13 @@ function addItem(player) {
 
         if (playWithComputer && player === 'player') {
             setTimeout(() => {
-                computerAddItem(selectedCategory);
-            }, 1000); // Add a slight delay for the computer's turn
+                computerAddItem(selectedCategory, newItem); // Pass player's entry for scoring
+            }, 1000);
         }
     }
 }
 
-function computerAddItem(category) {
+function computerAddItem(category, playerEntry) {
     if (computerEntries[category] && computerEntries[category].length > 0) {
         const randomIndex = Math.floor(Math.random() * computerEntries[category].length);
         const computerItem = computerEntries[category][randomIndex];
@@ -103,6 +125,11 @@ function computerAddItem(category) {
         savedEntries[guestId][category].push({ user: 'computer', value: computerItem });
         localStorage.setItem('pwaEntries', JSON.stringify(savedEntries));
         displayEntries();
+
+        const score = calculateScore(playerEntry, computerItem);
+        playerScore += score;
+        computerScore += score;
+        displayScores();
     }
 }
 
@@ -133,6 +160,16 @@ function displayEntries() {
     }
 }
 
+function displayScores() {
+    document.getElementById('playerScore').textContent = playerScore;
+    document.getElementById('computerScore').textContent = computerScore;
+}
+
 function loadEntries() {
     displayEntries();
+    // We might need to recalculate scores on load if we want persistence
+    // For simplicity, we'll reset scores on each session for now.
+    playerScore = 0;
+    computerScore = 0;
+    displayScores();
 }
