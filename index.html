@@ -1,40 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Name Place Animal Thing</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contextual Entries PWA</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="manifest" href="manifest.json" />
 </head>
 <body>
-    <h1>Enter Your Choices</h1>
-    <form id="inputForm">
-        <div>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name">
+    <h1>Welcome!</h1>
+    <div id="loginOptions">
+        <button onclick="guestLogin()">Continue as Guest</button>
+    </div>
+
+    <div id="appContent" style="display: none;">
+        <h2>Enter Your Items</h2>
+        <div id="inputArea">
+            <label for="category">Category:</label>
+            <select id="category" onchange="updateInputPlaceholder()">
+                <option value="Name">Name</option>
+                <option value="Place">Place</option>
+                <option value="Animal">Animal</option>
+                <option value="Thing">Thing</option>
+                <option value="Film">Film</option>
+                <option value="TV Show">TV Show</option>
+                <option value="Book">Book</option>
+                <option value="Song">Song</option>
+            </select>
+            <label for="item">Item:</label>
+            <input type="text" id="item" name="item" placeholder="Enter item" />
+            <button type="button" onclick="addItem()">Add Item</button>
         </div>
-        <div>
-            <label for="place">Place:</label>
-            <input type="text" id="place" name="place">
+
+        <div id="outputArea">
+            <h2>Your Entries:</h2>
+            <div id="entries">
+            </div>
         </div>
-        <div>
-            <label for="animal">Animal:</label>
-            <input type="text" id="animal" name="animal">
-        </div>
-        <div>
-            <label for="thing">Thing:</label>
-            <input type="text" id="thing" name="thing">
-        </div>
-        <button type="button" onclick="displayInputs()">Show Me!</button>
-    </form>
-    <div id="output"></div>
+    </div>
+
     <script src="script.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/service-worker.js');
         }
     </script>
-    <button type="button" onclick="shareInputs()">Share</button>
 </body>
 </html>
