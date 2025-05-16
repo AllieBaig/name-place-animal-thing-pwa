@@ -1,17 +1,92 @@
-
-/* Existing styles */
-
-@media (max-width: 600px) {
-    body {
-        margin: 10px;
-    }
-
-    #inputForm div {
-        margin-bottom: 15px;
-    }
-
-    input[type="text"], button {
-        width: 100%;
-    }
+body {
+    font-family: sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
 }
 
+h1, h2 {
+    text-align: center;
+    color: #333;
+}
+
+#loginOptions {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#loginOptions button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#loginOptions button:hover {
+    background-color: #0056b3;
+}
+
+#appContent {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#inputArea label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#inputArea select,
+#inputArea input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#inputArea button {
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#inputArea button:hover {
+    background-color: #1e7e34;
+}
+
+#outputArea {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+#entries {
+    margin-top: 10px;
+}
+
+.category-group {
+    margin-bottom: 15px;
+}
+
+.category-group h3 {
+    margin-top: 0;
+    color: #555;
+}
+
+.category-group ul {
+    padding-left: 20px;
+    list-style-type: disc;
+}
