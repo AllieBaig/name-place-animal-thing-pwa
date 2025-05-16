@@ -1,0 +1,17 @@
+
+/* Existing styles */
+
+@media (max-width: 600px) {
+    body {
+        margin: 10px;
+    }
+
+    #inputForm div {
+        margin-bottom: 15px;
+    }
+
+    input[type="text"], button {
+        width: 100%;
+    }
+}
+
