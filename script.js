@@ -2,6 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const guestId = localStorage.getItem('guestId');
     const appContent = document.getElementById('appContent');
     const loginOptions = document.getElementById('loginOptions');
+    const diceModeCheckbox = document.getElementById('diceMode');
+    const diceRollArea = document.getElementById('diceRollArea');
+    const categoryDropdown = document.getElementById('category');
+    const itemInput = document.getElementById('item');
+    const addItemButton = document.querySelector('#inputArea button');
 
     if (guestId) {
         loginOptions.style.display = 'none';
@@ -10,11 +15,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     updateInputPlaceholder();
-    displayScores(); // Initialize scores display
+    displayScores();
+
+    diceModeCheckbox.addEventListener('change', () => {
+        if (diceModeCheckbox.checked) {
+            diceRollArea.style.display = 'block';
+            categoryDropdown.disabled = true;
+            categoryDropdown.value = 'Name';
+            itemInput.placeholder = 'Enter a Name starting with...';
+            addItemButton.textContent = 'Add My Name';
+        } else {
+            diceRollArea.style.display = 'none';
+            categoryDropdown.disabled = false;
+            updateInputPlaceholder();
+            addItemButton.textContent = 'Add My Item';
+            currentDiceLetter = null;
+        }
+    });
 });
 
 let playerScore = 0;
 let computerScore = 0;
+let currentDiceLetter = null;
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 function guestLogin() {
     const guestId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
@@ -24,14 +47,13 @@ function guestLogin() {
     loginOptions.style.display = 'none';
     appContent.style.display = 'block';
     loadEntries();
-    displayScores(); // Initialize scores display
+    displayScores();
 }
 
 function updateInputPlaceholder() {
     const categoryDropdown = document.getElementById('category');
     const itemInput = document.getElementById('item');
     const selectedCategory = categoryDropdown.value;
-
     let placeholderText = 'Enter item';
     switch (selectedCategory) {
         case 'Name': placeholderText = 'Enter a Name'; break;
@@ -44,18 +66,72 @@ function updateInputPlaceholder() {
         case 'Song': placeholderText = 'Enter a Song Title'; break;
     }
     itemInput.placeholder = placeholderText;
+    if (document.getElementById('diceMode').checked && currentDiceLetter) {
+        itemInput.placeholder += ` starting with ${currentDiceLetter}`;
+    }
 }
 
 const computerEntries = {
-    Name: ["Alice", "Bob", "Charlie", "Diana", "Eve"],
-    Place: ["London", "Paris", "Tokyo", "New York", "Rome"],
-    Animal: ["Cat", "Dog", "Elephant", "Lion", "Tiger"],
-    Thing: ["Book", "Table", "Chair", "Computer", "Phone"],
-    Film: ["Star Wars", "The Matrix", "Inception", "Pulp Fiction", "Avatar"],
-    "TV Show": ["Friends", "Game of Thrones", "The Office", "Breaking Bad", "Stranger Things"],
-    Book: ["Harry Potter", "The Lord of the Rings", "Pride and Prejudice", "1984", "To Kill a Mockingbird"],
-    Song: ["Bohemian Rhapsody", "Imagine", "Hey Jude", "Like a Rolling Stone", "Smells Like Teen Spirit"],
+    Name: ["Alice", "Bob", "Charlie", "Diana", "Eve", "Aaron", "Bella", "Caleb", "Daisy", "Ethan", "Abigail", "Benjamin", "Chloe", "Daniel", "Eleanor"],
+    Place: ["London", "Paris", "Tokyo", "New York", "Rome", "Berlin", "Cairo", "Delhi", "Edinburgh", "Florence", "Amsterdam", "Bangkok", "Copenhagen", "Dublin", "Geneva"],
+    Animal: ["Cat", "Dog", "Elephant", "Lion", "Tiger", "Ant", "Bear", "Camel", "Deer", "Eagle", "Ape", "Badger", "Cheetah", "Dolphin", "Fox"],
+    Thing: ["Book", "Table", "Chair", "Computer", "Phone", "Apple", "Ball", "Car", "Desk", "Earrings", "Axe", "Bag", "Clock", "Door", "Fan"],
+    Film: ["Star Wars", "The Matrix", "Inception", "Pulp Fiction", "Avatar", "Alien", "Blade Runner", "Casablanca", "Dark Knight", "E.T.", "Amelie", "Braveheart", "Catch Me If You Can", "Die Hard", "Fight Club"],
+    "TV Show": ["Friends", "Game of Thrones", "The Office", "Breaking Bad", "Stranger Things", "Alias", "Battlestar Galactica", "Curb Your Enthusiasm", "Doctor Who", "ER", "Arrested Development", "Buffy the Vampire Slayer", "Community", "Dexter", "Fargo"],
+    Book: ["Harry Potter", "The Lord of the Rings", "Pride and Prejudice", "1984", "To Kill a Mockingbird", "Animal Farm", "Brave New World", "Crime and Punishment", "Don Quixote", "Frankenstein", "Adventures of Huckleberry Finn", "Beloved", "Catch-22", "Dracula", "Emma"],
+    Song: ["Bohemian Rhapsody", "Imagine", "Hey Jude", "Like a Rolling Stone", "Smells Like Teen Spirit", "A Day in the Life", "Billie Jean", "Comfortably Numb", "Don't Stop Believin'", "Every Breath You Take", "Good Vibrations", "Hotel California", "I Will Always Love You", "Johnny B. Goode", "Knockin' on Heaven's Door"],
 };
+
+const diceFaces = [
+    ` _____ `,
+    `|     |`,
+    `|  •  |`,
+    `|_____|`,
+    ` _____ `,
+    `| •   |`,
+    `|     |`,
+    `|   • |`,
+    `|_____|`,
+    ` _____ `,
+    `| •   |`,
+    `|  •  |`,
+    `|   • |`,
+    `|_____|`,
+    ` _____ `,
+    `| • • |`,
+    `|     |`,
+    `| • • |`,
+    `|_____|`,
+    ` _____ `,
+    `| • • |`,
+    `|  •  |`,
+    `| • • |`,
+    `|_____|`,
+    ` _____ `,
+    `| • • |`,
+    `| • • |`,
+    `| • • |`,
+    `|_____|`,
+];
+
+let currentDiceFaceIndex = 0;
+
+function rollDice() {
+    const diceLetterSpan = document.getElementById('diceLetter');
+    const intervalId = setInterval(() => {
+        diceLetterSpan.textContent = diceFaces[currentDiceFaceIndex % diceFaces.length];
+        currentDiceFaceIndex++;
+    }, 100); // Quick cycle through faces
+
+    setTimeout(() => {
+        clearInterval(intervalId);
+        const randomIndex = Math.floor(Math.random() * alphabet.length);
+        currentDiceLetter = alphabet[randomIndex];
+        diceLetterSpan.textContent = currentDiceLetter;
+        const itemInput = document.getElementById('item');
+        itemInput.placeholder = `Enter a Name starting with ${currentDiceLetter}`;
+    }, 1500); // Stop after 1.5 seconds and show the letter
+}
 
 function calculateScore(playerEntry, computerEntry) {
     const playerLower = playerEntry.toLowerCase();
@@ -81,8 +157,14 @@ function addItem(player) {
     const selectedCategory = categoryDropdown.value;
     const newItem = itemInput.value.trim();
     const playWithComputer = document.getElementById('playWithComputer').checked;
+    const diceMode = document.getElementById('diceMode').checked;
 
     if (newItem !== "") {
+        if (diceMode && currentDiceLetter && !newItem.toLowerCase().startsWith(currentDiceLetter.toLowerCase())) {
+            alert(`Your entry must start with the letter "${currentDiceLetter}" in Dice Mode!`);
+            return;
+        }
+
         const guestId = localStorage.getItem('guestId');
         let savedEntries = JSON.parse(localStorage.getItem('pwaEntries')) || {};
 
@@ -99,9 +181,13 @@ function addItem(player) {
         itemInput.value = "";
         displayEntries();
 
-        if (playWithComputer && player === 'player') {
+        if (playWithComputer && player === 'player' && diceMode) {
             setTimeout(() => {
-                computerAddItem(selectedCategory, newItem); // Pass player's entry for scoring
+                computerAddItem(selectedCategory, newItem);
+            }, 1000);
+        } else if (playWithComputer && player === 'player' && !diceMode) {
+            setTimeout(() => {
+                computerAddItem(selectedCategory, newItem);
             }, 1000);
         }
     }
@@ -109,8 +195,15 @@ function addItem(player) {
 
 function computerAddItem(category, playerEntry) {
     if (computerEntries[category] && computerEntries[category].length > 0) {
-        const randomIndex = Math.floor(Math.random() * computerEntries[category].length);
-        const computerItem = computerEntries[category][randomIndex];
+        let possibleEntries = computerEntries[category];
+        if (document.getElementById('diceMode').checked && currentDiceLetter) {
+            possibleEntries = computerEntries[category].filter(entry => entry.toLowerCase().startsWith(currentDiceLetter.toLowerCase()));
+            if (possibleEntries.length === 0) {
+                possibleEntries = ["No Entry"]; // Computer couldn't find a matching name
+            }
+        }
+        const randomIndex = Math.floor(Math.random() * possibleEntries.length);
+        const computerItem = possibleEntries[randomIndex];
 
         const guestId = localStorage.getItem('guestId');
         let savedEntries = JSON.parse(localStorage.getItem('pwaEntries')) || {};
@@ -126,10 +219,12 @@ function computerAddItem(category, playerEntry) {
         localStorage.setItem('pwaEntries', JSON.stringify(savedEntries));
         displayEntries();
 
-        const score = calculateScore(playerEntry, computerItem);
-        playerScore += score;
-        computerScore += score;
-        displayScores();
+        if (!document.getElementById('diceMode').checked) {
+            const score = calculateScore(playerEntry, computerItem);
+            playerScore += score;
+            computerScore += score;
+            displayScores();
+        }
     }
 }
 
@@ -167,8 +262,6 @@ function displayScores() {
 
 function loadEntries() {
     displayEntries();
-    // We might need to recalculate scores on load if we want persistence
-    // For simplicity, we'll reset scores on each session for now.
     playerScore = 0;
     computerScore = 0;
     displayScores();
