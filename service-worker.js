@@ -7,6 +7,14 @@ const staticAssets = [
     './manifest.json'
 ];
 
+const staticAssets = [
+    './',
+    './index.html',
+    './style.css',
+    './script.js',
+    './manifest.json'
+];
+
 self.addEventListener('install', async () => {
     const cache = await caches.open(cacheName);
     await cache.addAll(staticAssets);
