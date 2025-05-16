@@ -72,7 +72,7 @@ function updateInputPlaceholder() {
 }
 
 const computerEntries = {
-    Name: ["Alice", "Bob", "Charlie", "Diana", "Eve", "Aaron", "Bella", "Caleb", "Daisy", "Ethan", "Abigail", "Benjamin", "Chloe", "Daniel", "Eleanor"],
+    Name: ["Alice", "Bob", "Charlie", "Diana", "Eve", "Aaron", "Bella", "Caleb", "Daisy", "Ethan", "Abigail", "Benjamin", "Chloe", "Daniel", "Eleanor", "Lewis", "Liam", "Luna", "Leo", "Lily"],
     Place: ["London", "Paris", "Tokyo", "New York", "Rome", "Berlin", "Cairo", "Delhi", "Edinburgh", "Florence", "Amsterdam", "Bangkok", "Copenhagen", "Dublin", "Geneva"],
     Animal: ["Cat", "Dog", "Elephant", "Lion", "Tiger", "Ant", "Bear", "Camel", "Deer", "Eagle", "Ape", "Badger", "Cheetah", "Dolphin", "Fox"],
     Thing: ["Book", "Table", "Chair", "Computer", "Phone", "Apple", "Ball", "Car", "Desk", "Earrings", "Axe", "Bag", "Clock", "Door", "Fan"],
@@ -83,35 +83,12 @@ const computerEntries = {
 };
 
 const diceFaces = [
-    ` _____ `,
-    `|     |`,
-    `|  •  |`,
-    `|_____|`,
-    ` _____ `,
-    `| •   |`,
-    `|     |`,
-    `|   • |`,
-    `|_____|`,
-    ` _____ `,
-    `| •   |`,
-    `|  •  |`,
-    `|   • |`,
-    `|_____|`,
-    ` _____ `,
-    `| • • |`,
-    `|     |`,
-    `| • • |`,
-    `|_____|`,
-    ` _____ `,
-    `| • • |`,
-    `|  •  |`,
-    `| • • |`,
-    `|_____|`,
-    ` _____ `,
-    `| • • |`,
-    `| • • |`,
-    `| • • |`,
-    `|_____|`,
+    ` _____ `, `|     |`, `|  •  |`, `|_____|`,
+    ` _____ `, `| •   |`, `|     |`, `|   • |`, `|_____|`,
+    ` _____ `, `| •   |`, `|  •  |`, `|   • |`, `|_____|`,
+    ` _____ `, `| • • |`, `|     |`, `| • • |`, `|_____|`,
+    ` _____ `, `| • • |`, `|  •  |`, `| • • |`, `|_____|`,
+    ` _____ `, `| • • |`, `| • • |`, `| • • |`, `|_____|`,
 ];
 
 let currentDiceFaceIndex = 0;
@@ -121,7 +98,7 @@ function rollDice() {
     const intervalId = setInterval(() => {
         diceLetterSpan.textContent = diceFaces[currentDiceFaceIndex % diceFaces.length];
         currentDiceFaceIndex++;
-    }, 100); // Quick cycle through faces
+    }, 100);
 
     setTimeout(() => {
         clearInterval(intervalId);
@@ -130,7 +107,7 @@ function rollDice() {
         diceLetterSpan.textContent = currentDiceLetter;
         const itemInput = document.getElementById('item');
         itemInput.placeholder = `Enter a Name starting with ${currentDiceLetter}`;
-    }, 1500); // Stop after 1.5 seconds and show the letter
+    }, 1500);
 }
 
 function calculateScore(playerEntry, computerEntry) {
@@ -181,11 +158,7 @@ function addItem(player) {
         itemInput.value = "";
         displayEntries();
 
-        if (playWithComputer && player === 'player' && diceMode) {
-            setTimeout(() => {
-                computerAddItem(selectedCategory, newItem);
-            }, 1000);
-        } else if (playWithComputer && player === 'player' && !diceMode) {
+        if (playWithComputer && player === 'player') {
             setTimeout(() => {
                 computerAddItem(selectedCategory, newItem);
             }, 1000);
@@ -199,7 +172,7 @@ function computerAddItem(category, playerEntry) {
         if (document.getElementById('diceMode').checked && currentDiceLetter) {
             possibleEntries = computerEntries[category].filter(entry => entry.toLowerCase().startsWith(currentDiceLetter.toLowerCase()));
             if (possibleEntries.length === 0) {
-                possibleEntries = ["No Entry"]; // Computer couldn't find a matching name
+                possibleEntries = ["No Entry"];
             }
         }
         const randomIndex = Math.floor(Math.random() * possibleEntries.length);
@@ -219,12 +192,10 @@ function computerAddItem(category, playerEntry) {
         localStorage.setItem('pwaEntries', JSON.stringify(savedEntries));
         displayEntries();
 
-        if (!document.getElementById('diceMode').checked) {
-            const score = calculateScore(playerEntry, computerItem);
-            playerScore += score;
-            computerScore += score;
-            displayScores();
-        }
+        const score = calculateScore(playerEntry, computerItem);
+        playerScore += score;
+        computerScore += score;
+        displayScores();
     }
 }
 
