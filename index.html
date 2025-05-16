@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name Place Animal Thing</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <h1>Enter Your Choices</h1>
+    <form id="inputForm">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div>
+            <label for="place">Place:</label>
+            <input type="text" id="place" name="place">
+        </div>
+        <div>
+            <label for="animal">Animal:</label>
+            <input type="text" id="animal" name="animal">
+        </div>
+        <div>
+            <label for="thing">Thing:</label>
+            <input type="text" id="thing" name="thing">
+        </div>
+        <button type="button" onclick="displayInputs()">Show Me!</button>
+    </form>
+    <div id="output"></div>
+    <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js');
+        }
+    </script>
+</body>
+</html>
