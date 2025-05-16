@@ -1,29 +1,53 @@
-<div id="appContent" style="display: none;">
-    <h2>Enter Your Items</h2>
-    <div>
-        <input type="checkbox" id="playWithComputer">
-        <label for="playWithComputer">Play vs Computer</label>
-    </div>
-    <div id="inputArea">
-        <label for="category">Category:</label>
-        <select id="category" onchange="updateInputPlaceholder()">
-            <option value="Name">Name</option>
-            <option value="Place">Place</option>
-            <option value="Animal">Animal</option>
-            <option value="Thing">Thing</option>
-            <option value="Film">Film</option>
-            <option value="TV Show">TV Show</option>
-            <option value="Book">Book</option>
-            <option value="Song">Song</option>
-        </select>
-        <label for="item">Your Entry:</label>
-        <input type="text" id="item" name="item" placeholder="Enter item" />
-        <button type="button" onclick="addItem('player')">Add My Item</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contextual Entries PWA</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+    <h1>Welcome!</h1>
+    <div id="loginOptions">
+        <button onclick="guestLogin()">Continue as Guest</button>
     </div>
 
-    <div id="outputArea">
-        <h2>Your Entries:</h2>
-        <div id="entries">
+    <div id="appContent" style="display: none;">
+        <h2>Enter Your Items</h2>
+        <div>
+            <input type="checkbox" id="playWithComputer">
+            <label for="playWithComputer">Play vs Computer</label>
+        </div>
+        <div id="inputArea">
+            <label for="category">Category:</label>
+            <select id="category" onchange="updateInputPlaceholder()">
+                <option value="Name">Name</option>
+                <option value="Place">Place</option>
+                <option value="Animal">Animal</option>
+                <option value="Thing">Thing</option>
+                <option value="Film">Film</option>
+                <option value="TV Show">TV Show</option>
+                <option value="Book">Book</option>
+                <option value="Song">Song</option>
+            </select>
+            <label for="item">Your Entry:</label>
+            <input type="text" id="item" name="item" placeholder="Enter item" />
+            <button type="button" onclick="addItem('player')">Add My Item</button>
+        </div>
+
+        <div id="outputArea">
+            <h2>Your Entries:</h2>
+            <div id="entries">
+            </div>
         </div>
     </div>
-</div>
+
+    <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js');
+        }
+    </script>
+</body>
+</html>
