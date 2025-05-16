@@ -19,20 +19,21 @@
             <input type="checkbox" id="playWithComputer">
             <label for="playWithComputer">Play vs Computer</label>
         </div>
+        <div>
+            <input type="checkbox" id="diceMode">
+            <label for="diceMode">Dice Mode (Name Category)</label>
+        </div>
+        <div id="diceRollArea" style="display: none;">
+            <p>Roll Result: <span id="diceLetter">?</span></p>
+            <button type="button" onclick="rollDice()">Roll Dice</button>
+        </div>
         <div id="inputArea">
             <label for="category">Category:</label>
-            <select id="category" onchange="updateInputPlaceholder()">
+            <select id="category" onchange="updateInputPlaceholder()" disabled>
                 <option value="Name">Name</option>
-                <option value="Place">Place</option>
-                <option value="Animal">Animal</option>
-                <option value="Thing">Thing</option>
-                <option value="Film">Film</option>
-                <option value="TV Show">TV Show</option>
-                <option value="Book">Book</option>
-                <option value="Song">Song</option>
             </select>
             <label for="item">Your Entry:</label>
-            <input type="text" id="item" name="item" placeholder="Enter item" />
+            <input type="text" id="item" name="item" placeholder="Enter a Name" />
             <button type="button" onclick="addItem('player')">Add My Item</button>
         </div>
 
