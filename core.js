@@ -17,16 +17,12 @@ import './serviceWorkerRegistration.js';
 document.addEventListener('DOMContentLoaded', () => {
     loadEntries();
     displayScores();
-    // Potentially other initializations
+
+    const guestLoginButton = document.getElementById('guestLoginBtn');
+    if (guestLoginButton) {
+        guestLoginButton.addEventListener('click', handleGuestLogin);
+    }
 });
-
-function handleRegistration() {
-    auth.registerUser();
-}
-
-function handleLogin() {
-    auth.loginUser();
-}
 
 function handleGuestLogin() {
     auth.guestLogin();
@@ -56,8 +52,7 @@ function addRegularItem(category) {
     const itemInput = document.getElementById('item');
     if (itemInput) {
         regularGame.addItem('player', category, itemInput.value);
-        itemInput.value = ''; // Clear input after adding
-        // Optionally update category selection if needed
+        itemInput.value = '';
     }
 }
 
@@ -68,7 +63,6 @@ function displayJavaScriptBlockedMessage() {
     }
 }
 
-// Check if JavaScript is enabled
 if (typeof document.querySelector === 'undefined') {
     displayJavaScriptBlockedMessage();
 }
