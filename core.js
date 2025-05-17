@@ -10,7 +10,8 @@ import * as auth from './auth.js';
 import * as gameNav from './gameNavigation.js';
 import * as regularGame from './regularGame.js';
 import * as ui from './uiUpdates.js';
-import * as diceChallenge from './diceChallenge.js'; // Import the diceChallenge module
+import * as diceChallenge from './diceChallenge.js';
+import * as wordSafari from './wordSafari.js'; // Import the wordSafari module
 import { loadEntries } from './game-logic.js';
 import { displayScores } from './game-ui.js';
 import './serviceWorkerRegistration.js';
@@ -31,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const diceChallengeButton = document.getElementById('diceChallengeBtn');
     if (diceChallengeButton) {
-        diceChallengeButton.addEventListener('click', handleNavigateToDiceChallenge); // Use wrapper
+        diceChallengeButton.addEventListener('click', handleNavigateToDiceChallenge);
     }
 
     const wordSafariButton = document.getElementById('wordSafariBtn');
@@ -41,7 +42,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const rollDiceButton = document.getElementById('rollDiceBtn');
     if (rollDiceButton) {
-        rollDiceButton.addEventListener('click', handleRollDice); // Use wrapper
+        rollDiceButton.addEventListener('click', handleRollDice);
+    }
+
+    const surpriseMeButton = document.getElementById('surpriseMeBtn');
+    if (surpriseMeButton) {
+        surpriseMeButton.addEventListener('click', handleSurpriseMe); // Add listener for Surprise Me
     }
 });
 
@@ -53,7 +59,7 @@ function navigateToRegularGame() {
     gameNav.switchToRegularGame();
 }
 
-function handleNavigateToDiceChallenge() { // Wrapper for navigating to Dice
+function handleNavigateToDiceChallenge() {
     gameNav.switchToDiceChallenge();
 }
 
@@ -61,8 +67,12 @@ function navigateToWordSafari() {
     gameNav.switchToWordSafari();
 }
 
-function handleRollDice() { // Wrapper for calling rollDice
+function handleRollDice() {
     diceChallenge.rollDice();
+}
+
+function handleSurpriseMe() { // Wrapper for calling surpriseMe
+    wordSafari.surpriseMe();
 }
 
 function startRegularGame() {
