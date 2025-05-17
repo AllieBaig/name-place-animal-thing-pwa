@@ -22,6 +22,21 @@ document.addEventListener('DOMContentLoaded', () => {
     if (guestLoginButton) {
         guestLoginButton.addEventListener('click', handleGuestLogin);
     }
+
+    const regularGameButton = document.getElementById('regularGameBtn');
+    if (regularGameButton) {
+        regularGameButton.addEventListener('click', navigateToRegularGame);
+    }
+
+    const diceChallengeButton = document.getElementById('diceChallengeBtn');
+    if (diceChallengeButton) {
+        diceChallengeButton.addEventListener('click', navigateToDiceChallenge);
+    }
+
+    const wordSafariButton = document.getElementById('wordSafariBtn');
+    if (wordSafariButton) {
+        wordSafariButton.addEventListener('click', navigateToWordSafari);
+    }
 });
 
 function handleGuestLogin() {
