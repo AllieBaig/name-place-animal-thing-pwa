@@ -11,8 +11,6 @@
 </head>
 <body>
     <div id="loginOptions">
-        <label for="guestName">Play as Guest:</label>
-        <input type="text" id="guestName" placeholder="Enter a temporary name" />
         <button id="guestLoginBtn">Play as Guest</button>
         <div id="loginMessage"></div>
     </div>
@@ -53,7 +51,7 @@
         <div id="diceChallengeArea" style="display: none;">
             <h2>Dice Challenge</h2>
             <div id="diceRollStartArea">
-                <button onclick="diceChallenge.rollDice()">Roll Dice</button>
+                <button id="rollDiceBtn">Roll Dice</button>
                 <div id="challengeLetterDisplay">?</div>
                 <span id="challengeTimer">60 seconds</span>
             </div>
@@ -83,7 +81,7 @@
                 <label id="category4Label"></label> <span id="category4Clue" style="display: none;"></span><span id="category4JumbleClue" style="display: none;"></span><span id="category4FillClue" style="display: none;"></span> <input type="text" id="safariCategory4">
             </div>
             <button onclick="wordSafari.submitSafariEntries()">Submit Entries</button>
-            <button onclick="wordSafari.surpriseMe()">Surprise Me</button> <!- Re-added Surprise Me button -->
+            <button onclick="wordSafari.surpriseMe()">Surprise Me</button>
             <div id="passportArea">
                 <h3>Passport Stamps:</h3>
                 <div id="stampsDisplay"></div>
@@ -91,7 +89,7 @@
         </div>
     </div>
 
-    <div id="gameIssueTroubleshooter" style="position: fixed; bottom: 20px; left: 20px; background-color: #f0f0f0; border: 1px solid #ccc; padding: 10px; border-radius: 5px;"> <!- Made visible by default -->
+    <div id="gameIssueTroubleshooter" style="position: fixed; bottom: 20px; left: 20px; background-color: #f0f0f0; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
         <p>Experiencing game issues?</p>
         <button onclick="resetGameCache()">Click here to try and resolve.</button>
         <div id="cacheResetMessage" style="margin-top: 5px; font-size: 0.9em;"></div>
@@ -114,7 +112,7 @@
     <script src="debug.js"></script>
     <script src="probe.js"></script>
     <script>
-        // Check for a specific parameter in the URL to show the troubleshooter (keeping this for optional display)
+        // Check for a specific parameter in the URL to show the troubleshooter
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('showTroubleshooter') === 'true') {
             document.getElementById('gameIssueTroubleshooter').style.display = 'block';
