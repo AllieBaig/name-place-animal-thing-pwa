@@ -11,23 +11,16 @@
 </head>
 <body>
     <div id="loginOptions">
-        <label for="username">Username:</label>
-        <input type="text" id="username" />
-        <label for="password">Password:</label>
-        <input type="password" id="password" />
-        <button onclick="auth.loginUser()">Login</button>
-        <button onclick="auth.registerUser()">Register</button>
-        <hr />
         <label for="guestName">Play as Guest:</label>
         <input type="text" id="guestName" placeholder="Enter a temporary name" />
-        <button onclick="auth.guestLogin()">Guest Login</button>
+        <button id="guestLoginBtn">Play as Guest</button>
         <div id="loginMessage"></div>
     </div>
 
     <div id="appContent" style="display: none;">
-        <button onclick="gameNav.switchToRegularGame()">Play Regular Game</button>
-        <button onclick="gameNav.switchToDiceChallenge()">Play Dice Challenge</button>
-        <button onclick="gameNav.switchToWordSafari()">Play Word Safari</button>
+        <button onclick="navigateToRegularGame()">Play Regular Game</button>
+        <button onclick="navigateToDiceChallenge()">Play Dice Challenge</button>
+        <button onclick="navigateToWordSafari()">Play Word Safari</button>
 
         <div id="regularGameArea" style="display: none;">
             <h2>Play Name, Place, Animal, Thing</h2>
@@ -43,7 +36,7 @@
             <div class="input-section">
                 <label for="item">Your Entry:</label>
                 <input type="text" id="item">
-                <button onclick="regularGame.addItem('player')">Add Entry</button>
+                <button onclick="addRegularItem(document.getElementById('category').value)">Add Entry</button>
             </div>
             <div class="options">
                 <input type="checkbox" id="playWithComputer">
@@ -54,7 +47,7 @@
                 </div>
             <div id="playerScore">Score: 0</div>
             <div id="computerScore">Computer Score: 0</div>
-            <button onclick="regularGame.submitRegularGameEntries()">Submit All</button>
+            <button onclick="submitRegularEntries()">Submit All</button>
         </div>
 
         <div id="diceChallengeArea" style="display: none;">
@@ -106,13 +99,13 @@
     <script src="utils.js"></script>
     <script src="error-handler.js"></script>
     <script type="module" src="core.js"></script>
-    <script type="module" src="auth.js"></script>
-    <script type="module" src="gameNavigation.js"></script>
-    <script type="module" src="regularGame.js"></script>
-    <script type="module" src="uiUpdates.js"></script>
+    <script src="auth.js"></script>
+    <script src="gameNavigation.js"></script>
+    <script src="regularGame.js"></script>
+    <script src="uiUpdates.js"></script>
     <script src="serviceWorkerRegistration.js"></script>
-    <script type="module" src="game-logic.js"></script>
-    <script type="module" src="game-ui.js"></script>
+    <script src="game-logic.js"></script>
+    <script src="game-ui.js"></script>
     <script src="diceChallenge.js"></script>
     <script src="safari-content.js"></script>
     <script src="wordSafari.js"></script>
