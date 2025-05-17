@@ -1,10 +1,4 @@
-/*!
- * Name, Place, Animal, Thing PWA
- * Copyright (c) 2025 AllieBaig
- *
- * This software is licensed under the MIT License.
- * See LICENSE file for details: https://github.com/AllieBaig/name-place-animal-thing-pwa/blob/main/LICENSE
- */
+// auth.js
 
 function registerUser() {
     const usernameInput = document.getElementById('username');
@@ -13,22 +7,14 @@ function registerUser() {
     const username = usernameInput.value.trim();
     const password = passwordInput.value;
 
-    if (!username || !password) {
-        loginMessageDiv.textContent = "Please enter both username and password.";
-        return;
+    if (username && password) {
+        localStorage.setItem('user_' + username, password);
+        loginMessageDiv.textContent = 'Registration successful. You can now log in.';
+        usernameInput.value = '';
+        passwordInput.value = '';
+    } else {
+        loginMessageDiv.textContent = 'Please enter both username and password.';
     }
-
-    const storedUsers = JSON.parse(localStorage.getItem('pwaUsers')) || {};
-    if (storedUsers[username]) {
-        loginMessageDiv.textContent = "Username already exists.";
-        return;
-    }
-
-    storedUsers[username] = password; // Store password in plain text (VERY INSECURE)
-    localStorage.setItem('pwaUsers', JSON.stringify(storedUsers));
-    loginMessageDiv.textContent = "Registration successful. You can now log in.";
-    usernameInput.value = "";
-    passwordInput.value = "";
 }
 
 function loginUser() {
@@ -37,43 +23,34 @@ function loginUser() {
     const loginMessageDiv = document.getElementById('loginMessage');
     const username = usernameInput.value.trim();
     const password = passwordInput.value;
+    const storedPassword = localStorage.getItem('user_' + username);
 
-    if (!username || !password) {
-        loginMessageDiv.textContent = "Please enter both username and password.";
-        return;
-    }
-
-    const storedUsers = JSON.parse(localStorage.getItem('pwaUsers')) || {};
-    if (storedUsers[username] === password) {
+    if (storedPassword === password) {
         localStorage.setItem('loggedInUser', username);
         updateUIAfterLogin();
     } else {
-        loginMessageDiv.textContent = "Invalid username or password.";
+        loginMessageDiv.textContent = 'Invalid username or password.';
     }
 }
 
 function updateUIAfterLogin() {
-    const loginOptions = document.getElementById('loginOptions');
-    const appContent = document.getElementById('appContent');
-    if (loginOptions) loginOptions.style.display = 'none';
-    if (appContent) {
-        appContent.style.display = 'block';
-        loadEntries();
-        initializeWordSafari();
-        generateWireframeImage(10);
-    }
+    document.getElementById('loginOptions').style.display = 'none';
+    document.getElementById('appContent').style.display = 'block';
+    const guestNameInput = document.getElementById('guestName');
+    if (guestNameInput) guestNameInput.value = ''; // Clear guest name if logged in
 }
 
 function guestLogin() {
     const guestNameInput = document.getElementById('guestName');
     const guestName = guestNameInput.value.trim();
-
-    if (!guestName) {
-        document.getElementById('loginMessage').textContent = "Please enter a temporary name to play as guest.";
-        return;
+    if (guestName) {
+        const guestId = 'guest_' + Date.now(); // Simple unique guest ID
+        localStorage.setItem('guestId', guestId);
+        localStorage.setItem('loggedInUser', guestName); // Treat guest name as logged in user for UI
+        updateUIAfterLogin();
+    } else {
+        document.getElementById('loginMessage').textContent = 'Please enter a temporary name.';
     }
-
-    localStorage.setItem('loggedInUser', `guest_${guestName}`);
-    document.getElementById('loginMessage').textContent = "";
-    updateUIAfterLogin();
 }
+
+export { registerUser, loginUser, updateUIAfterLogin, guestLogin };
