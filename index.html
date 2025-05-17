@@ -83,6 +83,7 @@
                 <label id="category4Label"></label> <span id="category4Clue" style="display: none;"></span><span id="category4JumbleClue" style="display: none;"></span><span id="category4FillClue" style="display: none;"></span> <input type="text" id="safariCategory4">
             </div>
             <button onclick="wordSafari.submitSafariEntries()">Submit Entries</button>
+            <button onclick="wordSafari.surpriseMe()">Surprise Me</button> <!- Re-added Surprise Me button -->
             <div id="passportArea">
                 <h3>Passport Stamps:</h3>
                 <div id="stampsDisplay"></div>
@@ -90,7 +91,7 @@
         </div>
     </div>
 
-    <div id="gameIssueTroubleshooter" style="display: none; position: fixed; bottom: 20px; left: 20px; background-color: #f0f0f0; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+    <div id="gameIssueTroubleshooter" style="position: fixed; bottom: 20px; left: 20px; background-color: #f0f0f0; border: 1px solid #ccc; padding: 10px; border-radius: 5px;"> <!- Made visible by default -->
         <p>Experiencing game issues?</p>
         <button onclick="resetGameCache()">Click here to try and resolve.</button>
         <div id="cacheResetMessage" style="margin-top: 5px; font-size: 0.9em;"></div>
@@ -113,9 +114,12 @@
     <script src="debug.js"></script>
     <script src="probe.js"></script>
     <script>
-        // Check for a specific parameter in the URL to show the troubleshooter
+        // Check for a specific parameter in the URL to show the troubleshooter (keeping this for optional display)
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('showTroubleshooter') === 'true') {
+            document.getElementById('gameIssueTroubleshooter').style.display = 'block';
+        } else {
+            // Ensure it's visible by default if no parameter
             document.getElementById('gameIssueTroubleshooter').style.display = 'block';
         }
 
