@@ -1,10 +1,17 @@
 /*!
  * Name, Place, Animal, Thing PWA
- * Copyright (c) 2025 [Your GitHub Username]
+ * Copyright (c) 2025 AllieBaig
  *
  * This software is licensed under the MIT License.
  * See LICENSE file for details: https://github.com/[Your GitHub Username]/name-place-animal-thing-pwa/blob/main/LICENSE
  */
+
+function calculateScore(entry) {
+    if (!entry) {
+        return 0;
+    }
+    return entry.length; // Simple scoring: length of the entry
+}
 
 function addItem(player) {
     const categoryDropdown = document.getElementById('category');
