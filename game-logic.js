@@ -6,12 +6,24 @@
  * See LICENSE file for details: https://github.com/[Your GitHub Username]/name-place-animal-thing-pwa/blob/main/LICENSE
  */
 
-function calculateScore(entry) {
-    if (!entry) {
+// game-logic.js
+
+export function calculateScore(item) {
+    if (!item) {
         return 0;
     }
-    return entry.length; // Simple scoring: length of the entry
+    const firstLetter = item.trim().toLowerCase().charAt(0);
+    if (!firstLetter.match(/[a-z]/i)) {
+        return 0; // No points for non-alphabetic entries
+    }
+    if (uniqueFirstLetters.has(firstLetter)) {
+        return 5;
+    } else {
+        return 10;
+    }
 }
+
+// ... other functions in game-logic.js ...
 
 function addItem(player) {
     const categoryDropdown = document.getElementById('category');
