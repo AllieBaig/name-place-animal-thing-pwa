@@ -72,6 +72,12 @@ function submitSafariEntries() {
     console.log("Correct Answers:", correctAnswers);
 }
 
+function surpriseMe() {
+    console.log('Surprise Me button clicked');
+    currentSafariData = generateDailySafari(); // Generate a new random safari
+    loadDailySafariContent(currentSafariData.destination, currentSafariData.categories, currentSafariData.clues); // Update the UI
+}
+
 function displayPassportStamps() {
     const stampsDisplay = document.getElementById('stampsDisplay');
     if (stampsDisplay) { // Check if stampsDisplay exists
@@ -89,3 +95,5 @@ function displayPassportStamps() {
 
 let passportStamps = localStorage.getItem('passportStamps') ? parseInt(localStorage.getItem('passportStamps')) : 0;
 displayPassportStamps();
+
+export { startWordSafari, submitSafariEntries, surpriseMe };
