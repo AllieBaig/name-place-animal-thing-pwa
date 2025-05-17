@@ -21,21 +21,20 @@ const urlsToCache = [
     '/utils.js',
     '/wordSafari.js',
     '/wireframeGenerator.js',
-    // Add paths to any image or asset files you want to cache
     '/images/icon-192x192.png',
-    '/images/icon-512x512.png',
-    // ... other assets ...
+    '/images/icon-512x512.png'
+    // Add paths to any other image or asset files you want to cache
 ];
 
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => {
-                console.log('Opened cache');
+                console.log('Service worker installed, caching assets');
                 return cache.addAll(urlsToCache);
             })
             .catch(error => {
-                console.error('Error during cache population:', error);
+                console.error('Service worker installation failed:', error);
             })
     );
 });
@@ -46,7 +45,7 @@ self.addEventListener('activate', event => {
             return Promise.all(
                 cacheNames.map(cacheName => {
                     if (cacheName !== CACHE_NAME) {
-                        console.log('Clearing old cache:', cacheName);
+                        console.log('Service worker activated, clearing old cache:', cacheName);
                         return caches.delete(cacheName);
                     }
                 })
@@ -61,29 +60,35 @@ self.addEventListener('fetch', event => {
             .then(response => {
                 // Cache hit - return response
                 if (response) {
+                    console.log('Service worker found in cache:', event.request.url);
                     return response;
                 }
+
+                // Not in cache - fetch from network
+                console.log('Service worker fetching from network:', event.request.url);
                 return fetch(event.request).then(
-                    function(response) {
-                        // Check if we received a valid response
-                        if(!response || response.status !== 200 || response.type !== 'basic') {
+                    response => {
+                        // Check if response is valid
+                        if (!response || response.status !== 200 || response.type !== 'basic') {
                             return response;
                         }
 
-                        // IMPORTANT: Clone the response. A response is a stream
-                        // and because we want the response to be consumed by the
-                        // cache AND the browser we need to clone it.
-                        var responseToCache = response.clone();
+                        // Clone the response for caching
+                        const responseToCache = response.clone();
 
                         caches.open(CACHE_NAME)
-                            .then(function(cache) {
+                            .then(cache => {
+                                console.log('Service worker caching new resource:', event.request.url);
                                 cache.put(event.request, responseToCache);
                             });
 
-                        // Return the fetched response returned from the server
                         return response;
                     }
-                );
+                ).catch(() => {
+                    // If fetch fails, maybe return a cached offline page
+                    console.log('Service worker fetch failed:', event.request.url);
+                    // Example: return caches.match('/offline.html');
+                });
             })
     );
 });
