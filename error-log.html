@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client-Side Error Log</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        .error-item { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px; background-color: #f9f9f9; }
+        .timestamp { font-size: 0.8em; color: #777; margin-bottom: 5px; }
+        .message { font-weight: bold; margin-bottom: 5px; }
+        .details { font-size: 0.9em; color: #555; }
+    </style>
+</head>
+<body>
+    <h1>Client-Side Error Log</h1>
+    <div id="errorLogContainer">
+        </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const errorLogContainer = document.getElementById('errorLogContainer');
+            const errors = JSON.parse(localStorage.getItem('clientErrors')) || [];
+
+            if (errors.length > 0) {
+                errors.forEach(function(error) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.classList.add('error-item');
+
+                    const timestamp = document.createElement('p');
+                    timestamp.classList.add('timestamp');
+                    timestamp.textContent = error.timestamp;
+                    errorDiv.appendChild(timestamp);
+
+                    const message = document.createElement('p');
+                    message.classList.add('message');
+                    message.textContent = error.message;
+                    errorDiv.appendChild(message);
+
+                    const details = document.createElement('p');
+                    details.classList.add('details');
+                    details.textContent = `Source: ${error.source}, Line: ${error.line}, Column: ${error.column}`;
+                    errorDiv.appendChild(details);
+
+                    if (error.errorObject) {
+                        const stackTrace = document.createElement('pre');
+                        stackTrace.classList.add('details');
+                        stackTrace.textContent = `Stack Trace:\n${error.errorObject}`;
+                        errorDiv.appendChild(stackTrace);
+                    }
+
+                    errorLogContainer.appendChild(errorDiv);
+                });
+            } else {
+                const noErrorsMessage = document.createElement('p');
+                noErrorsMessage.textContent = 'No client-side errors have occurred yet.';
+                errorLogContainer.appendChild(noErrorsMessage);
+            }
+        });
+    </script>
+</body>
+</html>
