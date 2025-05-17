@@ -117,31 +117,15 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="utils.js"></script>
+    <script src="core.js"></script>
+    <script src="regularGame.js"></script>
+    <script src="diceChallenge.js"></script>
+    <script src="wordSafari.js"></script>
+    <script src="wireframeGenerator.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/service-worker.js');
-        }
-
-        function switchToRegularGame() {
-            document.getElementById('wordSafariArea').style.display = 'none';
-            document.getElementById('diceChallengeArea').style.display = 'none';
-            document.getElementById('regularGameArea').style.display = 'block';
-        }
-
-        function switchToDiceChallenge() {
-            document.getElementById('wordSafariArea').style.display = 'none';
-            document.getElementById('regularGameArea').style.display = 'none';
-            document.getElementById('diceChallengeArea').style.display = 'block';
-            document.getElementById('diceRollStartArea').style.display = 'block';
-            document.getElementById('challengeInputs').style.display = 'none'; // Initially hide inputs
-        }
-
-        function switchToWordSafari() {
-            document.getElementById('regularGameArea').style.display = 'none';
-            document.getElementById('diceChallengeArea').style.display = 'none';
-            document.getElementById('wordSafariArea').style.display = 'block';
-            startWordSafari();
         }
     </script>
 </body>
