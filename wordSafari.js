@@ -1,15 +1,38 @@
-let currentSafariData = { destination: "", categories: [], clues: [] };
+/*!
+ * Name, Place, Animal, Thing PWA
+ * Copyright (c) 2025 AllieBaig
+ *
+ * This software is licensed under the MIT License.
+ * See LICENSE file for details: https://github.com/AllieBaig/name-place-animal-thing-pwa/blob/main/LICENSE
+ */
+
+let currentSafariData = { destination: "", categories: [], clues: [], correctAnswers: [] };
 
 function loadDailySafariContent(destination, categories, clues) {
     document.getElementById('currentDestination').textContent = destination;
-    document.getElementById('category1Label').textContent = categories[0] + ":";
-    document.getElementById('category1Clue').textContent = clues[0];
-    document.getElementById('category2Label').textContent = categories[1] + ":";
-    document.getElementById('category2Clue').textContent = clues[1];
-    document.getElementById('category3Label').textContent = categories[2] + ":";
-    document.getElementById('category3Clue').textContent = clues[2];
-    document.getElementById('category4Label').textContent = categories[3] + ":";
-    document.getElementById('category4Clue').textContent = clues[3];
+    for (let i = 0; i < categories.length; i++) {
+        const categoryLabel = document.getElementById(`category${i + 1}Label`);
+        const textClueSpan = document.getElementById(`category${i + 1}Clue`);
+        const jumbleClueSpan = document.getElementById(`category${i + 1}JumbleClue`);
+        const fillClueSpan = document.getElementById(`category${i + 1}FillClue`);
+
+        categoryLabel.textContent = categories[i] + ":";
+        textClueSpan.style.display = 'none';
+        jumbleClueSpan.style.display = 'none';
+        fillClueSpan.style.display = 'none';
+
+        const clue = clues[i];
+        if (clue.type === 'text') {
+            textClueSpan.textContent = clue.value;
+            textClueSpan.style.display = 'inline';
+        } else if (clue.type === 'jumble') {
+            jumbleClueSpan.textContent = clue.value.toUpperCase().split('').sort(() => Math.random() - 0.5).join('');
+            jumbleClueSpan.style.display = 'inline';
+        } else if (clue.type === 'fill') {
+            fillClueSpan.textContent = clue.value;
+            fillClueSpan.style.display = 'inline';
+        }
+    }
 }
 
 function startWordSafari() {
@@ -19,15 +42,34 @@ function startWordSafari() {
 }
 
 function submitSafariEntries() {
-    const entry1 = document.getElementById('safariCategory1').value.trim();
-    const entry2 = document.getElementById('safariCategory2').value.trim();
-    const entry3 = document.getElementById('safariCategory3').value.trim();
-    const entry4 = document.getElementById('safariCategory4').value.trim();
-    console.log("Submitted Safari Entries for:", currentSafariData.destination, "-", entry1, entry2, entry3, entry4);
-    alert("Answers submitted! Checking functionality will be added soon.");
-    passportStamps++;
-    localStorage.setItem('passportStamps', passportStamps);
-    displayPassportStamps();
+    const entry1 = document.getElementById('safariCategory1').value.trim().toLowerCase();
+    const entry2 = document.getElementById('safariCategory2').value.trim().toLowerCase();
+    const entry3 = document.getElementById('safariCategory3').value.trim().toLowerCase();
+    const entry4 = document.getElementById('safariCategory4').value.trim().toLowerCase();
+
+    const userEntries = [entry1, entry2, entry3, entry4];
+    const correctAnswers = currentSafariData.correctAnswers.map(answer => answer.toLowerCase());
+    let correctCount = 0;
+
+    for (let i = 0; i < userEntries.length; i++) {
+        if (userEntries[i] === correctAnswers[i]) {
+            correctCount++;
+        }
+    }
+
+    alert(`You got ${correctCount} out of ${correctAnswers.length} correct!`);
+
+    if (correctCount === correctAnswers.length) {
+        passportStamps++;
+        localStorage.setItem('passportStamps', passportStamps);
+        displayPassportStamps();
+    }
+
+    // Future: Implement definition lookup and display
+    // For now, let's just log the entries and answers
+    console.log("Submitted Safari Entries for:", currentSafariData.destination);
+    console.log("Your Entries:", userEntries);
+    console.log("Correct Answers:", correctAnswers);
 }
 
 function displayPassportStamps() {
