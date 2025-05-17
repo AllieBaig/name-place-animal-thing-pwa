@@ -63,3 +63,17 @@ function updateUIAfterLogin() {
         generateWireframeImage(10);
     }
 }
+
+function guestLogin() {
+    const guestNameInput = document.getElementById('guestName');
+    const guestName = guestNameInput.value.trim();
+
+    if (!guestName) {
+        document.getElementById('loginMessage').textContent = "Please enter a temporary name to play as guest.";
+        return;
+    }
+
+    localStorage.setItem('loggedInUser', `guest_${guestName}`);
+    document.getElementById('loginMessage').textContent = "";
+    updateUIAfterLogin();
+}
