@@ -9,7 +9,8 @@
         .error-item { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px; background-color: #f9f9f9; }
         .timestamp { font-size: 0.8em; color: #777; margin-bottom: 5px; }
         .message { font-weight: bold; margin-bottom: 5px; }
-        .details { font-size: 0.9em; color: #555; }
+        .details { font-size: 0.9em; color: #555; margin-bottom: 3px; }
+        .stack-trace { white-space: pre-wrap; font-family: monospace; font-size: 0.85em; color: #333; background-color: #eee; padding: 8px; border-radius: 3px; }
     </style>
 </head>
 <body>
@@ -28,7 +29,11 @@
 
                     const timestamp = document.createElement('p');
                     timestamp.classList.add('timestamp');
-                    timestamp.textContent = error.timestamp;
+                    // Format the timestamp for better readability
+                    const dateTimeParts = error.timestamp.split('T');
+                    const datePart = dateTimeParts[0];
+                    const timePart = dateTimeParts[1].substring(0, dateTimeParts[1].indexOf('.')); // Remove milliseconds and 'Z'
+                    timestamp.textContent = `${datePart} ${timePart} (UTC)`;
                     errorDiv.appendChild(timestamp);
 
                     const message = document.createElement('p');
@@ -36,15 +41,25 @@
                     message.textContent = error.message;
                     errorDiv.appendChild(message);
 
-                    const details = document.createElement('p');
-                    details.classList.add('details');
-                    details.textContent = `Source: ${error.source}, Line: ${error.line}, Column: ${error.column}`;
-                    errorDiv.appendChild(details);
+                    const detailsSource = document.createElement('p');
+                    detailsSource.classList.add('details');
+                    detailsSource.textContent = `Source: ${error.source}`;
+                    errorDiv.appendChild(detailsSource);
+
+                    const detailsLocation = document.createElement('p');
+                    detailsLocation.classList.add('details');
+                    detailsLocation.textContent = `Line: ${error.line}, Column: ${error.column}`;
+                    errorDiv.appendChild(detailsLocation);
 
                     if (error.errorObject) {
+                        const stackTraceLabel = document.createElement('p');
+                        stackTraceLabel.classList.add('details');
+                        stackTraceLabel.textContent = 'Stack Trace:';
+                        errorDiv.appendChild(stackTraceLabel);
+
                         const stackTrace = document.createElement('pre');
-                        stackTrace.classList.add('details');
-                        stackTrace.textContent = `Stack Trace:\n${error.errorObject}`;
+                        stackTrace.classList.add('stack-trace');
+                        stackTrace.textContent = error.errorObject;
                         errorDiv.appendChild(stackTrace);
                     }
 
