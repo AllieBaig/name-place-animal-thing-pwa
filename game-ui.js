@@ -38,9 +38,18 @@ function displayEntries() {
     }
 }
 
-export function displayScores() {
+// game-ui.js
+
+function displayScores() {
     const playerScoreDisplay = document.getElementById('playerScore');
     const computerScoreDisplay = document.getElementById('computerScore');
+    let playerScore = localStorage.getItem('playerScore') ? parseInt(localStorage.getItem('playerScore')) : 0;
+    let computerScore = localStorage.getItem('computerScore') ? parseInt(localStorage.getItem('computerScore')) : 0;
+
     if (playerScoreDisplay) playerScoreDisplay.textContent = playerScore;
     if (computerScoreDisplay) computerScoreDisplay.textContent = computerScore;
 }
+
+export { displayScores };
+
+// ... other functions in game-ui.js ...
