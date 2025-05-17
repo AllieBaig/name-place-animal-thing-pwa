@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="manifest" href="manifest.json" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="probe.js"></script> <!- Added probe script early -->
 </head>
 <body>
     <h1>Welcome!</h1>
@@ -119,10 +120,13 @@
 
     <script src="utils.js"></script>
     <script src="core.js"></script>
-    <script src="regularGame.js"></script>
+    <script src="game-logic.js"></script>
+    <script src="game-ui.js"></script>
     <script src="diceChallenge.js"></script>
     <script src="wordSafari.js"></script>
     <script src="wireframeGenerator.js"></script>
+    <script src="debug.js"></script>
+    <script src="probe.js"></script>
     <script>
         // Check for the debug query parameter
         const urlParams = new URLSearchParams(window.location.search);
