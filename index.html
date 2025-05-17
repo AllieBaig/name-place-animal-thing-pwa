@@ -11,143 +11,17 @@
 </head>
 <body>
     <div id="loginOptions">
-        <h2>Login or Register</h2>
-        <div>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username">
         </div>
-        <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password">
-        </div>
-        <button onclick="registerUser()">Register</button>
-        <button onclick="loginUser()">Login</button>
-        <hr>
-        <h3>Play as Guest</h3>
-        <div>
-            <label for="guestName">Enter Temporary Name:</label>
-            <input type="text" id="guestName" name="guestName">
-        </div>
-        <button onclick="guestLogin()">Continue as Guest</button>
-        <div id="loginMessage" style="color: red;"></div>
-    </div>
 
     <div id="appContent" style="display: none;">
-        <h2>Choose Your Game</h2>
-        <button onclick="switchToRegularGame()">Regular Game</button>
-        <button onclick="switchToDiceChallenge()">Dice Challenge</button>
-        <button onclick="switchToWordSafari()">Word Safari</button>
-
-        <div id="wordSafariArea" style="display: none;">
-            <h2>Word Safari: Explore the World Through Words</h2>
-            <div id="safariDestination">
-                <h3>Traveling to: <span id="currentDestination">?</span></h3>
-            </div>
-            <div id="safariCategories">
-                <p>Fill in the words for this week's safari:</p>
-                <div>
-                    <label for="safariCategory1"><span id="category1Label">?</span>:</label>
-                    <span class="clue" id="category1Clue"></span>
-                    <span class="jumbleClue" id="category1JumbleClue" style="display: none;"></span>
-                    <span class="fillClue" id="category1FillClue" style="display: none;"></span>
-                    <input type="text" id="safariCategory1" name="safariCategory1">
-                </div>
-                <div>
-                    <label for="safariCategory2"><span id="category2Label">?</span>:</label>
-                    <span class="clue" id="category2Clue"></span>
-                    <span class="jumbleClue" id="category2JumbleClue" style="display: none;"></span>
-                    <span class="fillClue" id="category2FillClue" style="display: none;"></span>
-                    <input type="text" id="safariCategory2" name="safariCategory2">
-                </div>
-                <div>
-                    <label for="safariCategory3"><span id="category3Label">?</span>:</label>
-                    <span class="clue" id="category3Clue"></span>
-                    <span class="jumbleClue" id="category3JumbleClue" style="display: none;"></span>
-                    <span class="fillClue" id="category3FillClue" style="display: none;"></span>
-                    <input type="text" id="safariCategory3" name="safariCategory3">
-                </div>
-                <div>
-                    <label for="safariCategory4"><span id="category4Label">?</span>:</label>
-                    <span class="clue" id="category4Clue"></span>
-                    <span class="jumbleClue" id="category4JumbleClue" style="display: none;"></span>
-                    <span class="fillClue" id="category4FillClue" style="display: none;"></span>
-                    <input type="text" id="safariCategory4" name="safariCategory4">
-                </div>
-                <button onclick="submitSafariEntries()">Check Answers</button>
-            </div>
-            <div id="passportArea">
-                <h3>Passport Stamps:</h3>
-                <div id="stampsDisplay"></div>
-            </div>
-            <div id="wordInfo">
-                <p>Definition: <span id="definition"></span></p>
-                <button id="pronunciationButton" style="display: none;">Pronounce</button>
-            </div>
         </div>
 
-        <div id="regularGameArea" style="display: none;">
-            <h2>Enter Your Items</h2>
-            <div>
-                <input type="checkbox" id="playWithComputer">
-                <label for="playWithComputer">Play vs Computer</label>
-            </div>
-            <div id="inputArea">
-                <label for="category">Category:</label>
-                <select id="category" onchange="updateInputPlaceholder()">
-                    <option value="Name">Name</option>
-                    <option value="Place">Place</option>
-                    <option value="Animal">Animal</option>
-                    <option value="Thing">Thing</option>
-                    <option value="Film">Film</option>
-                    <option value="TV Show">TV Show</option>
-                    <option value="Book">Book</option>
-                    <option value="Song">Song</option>
-                </select>
-                <label for="item">Your Entry:</label>
-                <input type="text" id="item" name="item" placeholder="Enter item" />
-                <button type="button" onclick="addItem('player')">Add My Item</button>
-            </div>
-            <div id="outputArea">
-                <h2>Your Entries:</h2>
-                <div id="entries">
-                </div>
-                <h3>Scores:</h3>
-                <p>You: <span id="playerScore">0</span></p>
-                <p>Computer: <span id="computerScore">0</span></p>
-            </div>
-        </div>
-
-        <div id="diceChallengeArea" style="display: none;">
-            <h3>Dice Challenge: Enter words starting with <span id="challengeLetterDisplay">?</span></h3>
-            <div id="diceRollStartArea" style="display: block;">
-                <p>Roll the dice to start!</p>
-                <button type="button" onclick="rollDiceStart()">Roll Dice</button>
-                <p>Letter: <span id="diceStartLetter">?</span></p>
-            </div>
-            <div id="challengeInputs" style="display: none;">
-                <div>
-                    <label for="nameEntry">Name:</label>
-                    <input type="text" id="nameEntry" name="nameEntry" />
-                </div>
-                <div>
-                    <label for="placeEntry">Place:</label>
-                    <input type="text" id="placeEntry" name="placeEntry" />
-                </div>
-                <div>
-                    <label for="animalEntry">Animal:</label>
-                    <input type="text" id="animalEntry" name="animalEntry" />
-                </div>
-                <div>
-                    <label for="thingEntry">Thing:</label>
-                    <input type="text" id="thingEntry" name="thingEntry" />
-                </div>
-                <p>Time Remaining: <span id="timerDisplay">1:00</span></p>
-                <button type="button" onclick="submitChallenge()">Submit Entries</button>
-            </div>
-        </div>
+    <div id="gameIssueTroubleshooter" style="display: none; position: fixed; bottom: 20px; left: 20px; background-color: #f0f0f0; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+        <p>Experiencing game issues?</p>
+        <button onclick="resetGameCache()">Click here to try and resolve.</button>
+        <div id="cacheResetMessage" style="margin-top: 5px; font-size: 0.9em;"></div>
     </div>
 
-    <script src="error-handler.js"></script>
     <script src="utils.js"></script>
     <script src="auth.js"></script>
     <script src="core.js"></script>
@@ -160,13 +34,47 @@
     <script src="debug.js"></script>
     <script src="probe.js"></script>
     <script>
-        // Check for the debug query parameter
+        // Check for a specific parameter in the URL to show the troubleshooter
         const urlParams = new URLSearchParams(window.location.search);
-        const isDebugMode = urlParams.get('debug') === 'true';
+        if (urlParams.get('showTroubleshooter') === 'true') {
+            document.getElementById('gameIssueTroubleshooter').style.display = 'block';
+        }
 
-        if (isDebugMode) {
-            document.write('<script src="debug.js"><\/script>');
-            console.warn("Debug mode activated via URL parameter.");
+        async function resetGameCache() {
+            const cacheResetMessage = document.getElementById('cacheResetMessage');
+            cacheResetMessage.textContent = 'Attempting to reset cache...';
+            try {
+                const cacheNames = await caches.keys();
+                for (const cacheName of cacheNames) {
+                    await caches.delete(cacheName);
+                }
+                cacheResetMessage.textContent = 'Cache reset successful.';
+            } catch (error) {
+                cacheResetMessage.textContent = 'Error resetting cache.';
+                console.error('Error resetting cache:', error);
+            }
+
+            if ('serviceWorker' in navigator) {
+                cacheResetMessage.textContent += ' Attempting to unregister service worker...';
+                try {
+                    const registration = await navigator.serviceWorker.getRegistration();
+                    if (registration) {
+                        const unregistered = await registration.unregister();
+                        if (unregistered) {
+                            cacheResetMessage.textContent += ' Service worker unregistered. Please reload the page.';
+                        } else {
+                            cacheResetMessage.textContent += ' Failed to unregister service worker.';
+                        }
+                    } else {
+                        cacheResetMessage.textContent += ' No service worker registered.';
+                    }
+                } catch (error) {
+                    cacheResetMessage.textContent += ' Error unregistering service worker.';
+                    console.error('Error unregistering service worker:', error);
+                }
+            } else {
+                cacheResetMessage.textContent += ' Service workers are not supported in this browser.';
+            }
         }
 
         if ('serviceWorker' in navigator) {
