@@ -1,14 +1,10 @@
-function calculateScore(word) {
-    let score = 0;
-    const upperCaseWord = word.toUpperCase();
-    for (let i = 0; i < upperCaseWord.length; i++) {
-        const letter = upperCaseWord[i];
-        if (scrabbleLetterValues[letter]) {
-            score += scrabbleLetterValues[letter];
-        }
-    }
-    return score;
-}
+/*!
+ * Name, Place, Animal, Thing PWA
+ * Copyright (c) 2025 [Your GitHub Username]
+ *
+ * This software is licensed under the MIT License.
+ * See LICENSE file for details: https://github.com/[Your GitHub Username]/name-place-animal-thing-pwa/blob/main/LICENSE
+ */
 
 function addItem(player) {
     const categoryDropdown = document.getElementById('category');
