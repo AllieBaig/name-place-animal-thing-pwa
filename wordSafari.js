@@ -74,12 +74,16 @@ function submitSafariEntries() {
 
 function displayPassportStamps() {
     const stampsDisplay = document.getElementById('stampsDisplay');
-    stampsDisplay.innerHTML = '';
-    for (let i = 0; i < passportStamps; i++) {
-        const stamp = document.createElement('span');
-        stamp.textContent = '🛂'; // Passport stamp emoji
-        stamp.classList.add('passport-stamp');
-        stampsDisplay.appendChild(stamp);
+    if (stampsDisplay) { // Check if stampsDisplay exists
+        stampsDisplay.innerHTML = '';
+        for (let i = 0; i < passportStamps; i++) {
+            const stamp = document.createElement('span');
+            stamp.textContent = '🛂'; // Passport stamp emoji
+            stamp.classList.add('passport-stamp');
+            stampsDisplay.appendChild(stamp);
+        }
+    } else {
+        console.error("Error: stampsDisplay element not found in the DOM.");
     }
 }
 
