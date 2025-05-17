@@ -6,43 +6,61 @@
  * See LICENSE file for details: https://github.com/AllieBaig/name-place-animal-thing-pwa/blob/main/LICENSE
  */
 
-import { loadEntries } from './game-logic.js';
-import { displayScores } from './game-ui.js'; // Correct import
 import * as auth from './auth.js';
 import * as gameNav from './gameNavigation.js';
 import * as regularGame from './regularGame.js';
 import * as ui from './uiUpdates.js';
+import { loadEntries } from './game-logic.js';
+import { displayScores } from './game-ui.js';
 import './serviceWorkerRegistration.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     loadEntries();
-    displayScores(); // Use the imported displayScores
+    displayScores();
     // Potentially other initializations
 });
 
-// --- Authentication Functions (Moved to auth.js) ---
-// Exported functions will be accessible via auth.functionName
-// registerUser() {}
-// loginUser() {}
-// updateUIAfterLogin() {}
-// guestLogin() {}
+function handleRegistration() {
+    auth.registerUser();
+}
 
-// --- Regular Game Functions (Moved to regularGame.js) ---
-// Exported functions will be accessible via regularGame.functionName
-// let regularGameTimerInterval;
-// let regularGameTimeLeft = 30;
-// startRegularGameTimer() {}
-// updateRegularGameTimerDisplay() {}
-// switchToRegularGame() {}
-// submitRegularGameEntries() {}
-// addItemRegularGame() {}
-// computerTurnRegularGame() {}
-// computerAddItemRegularGame() {}
+function handleLogin() {
+    auth.loginUser();
+}
 
-// --- UI Update Functions (Moved to uiUpdates.js) ---
-// Exported functions will be accessible via ui.functionName
-// displayEntries() {}
-// displayScores() {}
+function handleGuestLogin() {
+    auth.guestLogin();
+}
+
+function navigateToRegularGame() {
+    gameNav.switchToRegularGame();
+}
+
+function navigateToDiceChallenge() {
+    gameNav.switchToDiceChallenge();
+}
+
+function navigateToWordSafari() {
+    gameNav.switchToWordSafari();
+}
+
+function startRegularGame() {
+    regularGame.startRegularGameTimer();
+}
+
+function submitRegularEntries() {
+    regularGame.submitRegularGameEntries();
+}
+
+function addRegularItem(category) {
+    const itemInput = document.getElementById('item');
+    if (itemInput) {
+        regularGame.addItem('player', category, itemInput.value);
+        itemInput.value = ''; // Clear input after adding
+        // Optionally update category selection if needed
+    }
+}
+
 function displayJavaScriptBlockedMessage() {
     const appContent = document.getElementById('appContent');
     if (appContent) {
@@ -54,8 +72,3 @@ function displayJavaScriptBlockedMessage() {
 if (typeof document.querySelector === 'undefined') {
     displayJavaScriptBlockedMessage();
 }
-
-// --- Game Navigation Functions (Moved to gameNavigation.js) ---
-// Exported functions will be accessible via gameNav.functionName
-// switchToDiceChallenge() {}
-// switchToWordSafari() {}
