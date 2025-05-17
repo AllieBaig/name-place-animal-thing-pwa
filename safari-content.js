@@ -1,3 +1,11 @@
+/*!
+ * Name, Place, Animal, Thing PWA
+ * Copyright (c) 2025 [Your GitHub Username]
+ *
+ * This software is licensed under the MIT License.
+ * See LICENSE file for details: https://github.com/[Your GitHub Username]/name-place-animal-thing-pwa/blob/main/LICENSE
+ */
+
 const possibleDestinationsWithClues = [
     {
         destination: "The African Savanna",
