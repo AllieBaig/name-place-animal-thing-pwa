@@ -124,6 +124,15 @@
     <script src="wordSafari.js"></script>
     <script src="wireframeGenerator.js"></script>
     <script>
+        // Check for the debug query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const isDebugMode = urlParams.get('debug') === 'true';
+
+        if (isDebugMode) {
+            document.write('<script src="debug.js"><\/script>');
+            console.warn("Debug mode activated via URL parameter.");
+        }
+
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/service-worker.js');
         }
