@@ -38,7 +38,7 @@ function displayEntries() {
     }
 }
 
-function displayScores() {
+export function displayScores() {
     const playerScoreDisplay = document.getElementById('playerScore');
     const computerScoreDisplay = document.getElementById('computerScore');
     if (playerScoreDisplay) playerScoreDisplay.textContent = playerScore;
