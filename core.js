@@ -6,13 +6,13 @@
  * See LICENSE file for details: https://github.com/AllieBaig/name-place-animal-thing-pwa/blob/main/LICENSE
  */
 
+import { loadEntries } from './game-logic.js';
+import { displayScores } from './game-ui.js'; // Correct import
 import * as auth from './auth.js';
 import * as gameNav from './gameNavigation.js';
 import * as regularGame from './regularGame.js';
 import * as ui from './uiUpdates.js';
-import { loadEntries } from './game-logic.js'; // Assuming loadEntries is in game-logic.js
-import { displayScores } from './game-ui.js';   // Assuming displayScores is in game-ui.js
-import './serviceWorkerRegistration.js'; // Import for side effects (registration)
+import './serviceWorkerRegistration.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     loadEntries();
