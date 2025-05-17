@@ -22,6 +22,13 @@
         </div>
         <button onclick="registerUser()">Register</button>
         <button onclick="loginUser()">Login</button>
+        <hr>
+        <h3>Play as Guest</h3>
+        <div>
+            <label for="guestName">Enter Temporary Name:</label>
+            <input type="text" id="guestName" name="guestName">
+        </div>
+        <button onclick="guestLogin()">Continue as Guest</button>
         <div id="loginMessage" style="color: red;"></div>
     </div>
 
@@ -41,21 +48,29 @@
                 <div>
                     <label for="safariCategory1"><span id="category1Label">?</span>:</label>
                     <span class="clue" id="category1Clue"></span>
+                    <span class="jumbleClue" id="category1JumbleClue" style="display: none;"></span>
+                    <span class="fillClue" id="category1FillClue" style="display: none;"></span>
                     <input type="text" id="safariCategory1" name="safariCategory1">
                 </div>
                 <div>
                     <label for="safariCategory2"><span id="category2Label">?</span>:</label>
                     <span class="clue" id="category2Clue"></span>
+                    <span class="jumbleClue" id="category2JumbleClue" style="display: none;"></span>
+                    <span class="fillClue" id="category2FillClue" style="display: none;"></span>
                     <input type="text" id="safariCategory2" name="safariCategory2">
                 </div>
                 <div>
                     <label for="safariCategory3"><span id="category3Label">?</span>:</label>
                     <span class="clue" id="category3Clue"></span>
+                    <span class="jumbleClue" id="category3JumbleClue" style="display: none;"></span>
+                    <span class="fillClue" id="category3FillClue" style="display: none;"></span>
                     <input type="text" id="safariCategory3" name="safariCategory3">
                 </div>
                 <div>
                     <label for="safariCategory4"><span id="category4Label">?</span>:</label>
                     <span class="clue" id="category4Clue"></span>
+                    <span class="jumbleClue" id="category4JumbleClue" style="display: none;"></span>
+                    <span class="fillClue" id="category4FillClue" style="display: none;"></span>
                     <input type="text" id="safariCategory4" name="safariCategory4">
                 </div>
                 <button onclick="submitSafariEntries()">Check Answers</button>
