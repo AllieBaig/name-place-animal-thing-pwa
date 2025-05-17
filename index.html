@@ -1,20 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contextual Entries PWA</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="manifest" href="manifest.json" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="probe.js"></script> <!- Added probe script early -->
-</head>
 <body>
     <div id="loginOptions">
         </div>
 
     <div id="appContent" style="display: none;">
+        <button onclick="switchToRegularGame()">Play Regular Game</button>
+        <button onclick="switchToDiceChallenge()">Play Dice Challenge</button>
+        <button onclick="switchToWordSafari()">Play Word Safari</button>
+
+        <div id="regularGameArea" style="display: none;">
+            <h2>Play Name, Place, Animal, Thing</h2>
+            <div class="input-section">
+                <label for="category">Category:</label>
+                <select id="category">
+                    <option value="Name">Name</option>
+                    <option value="Place">Place</option>
+                    <option value="Animal">Animal</option>
+                    <option value="Thing">Thing</option>
+                </select>
+            </div>
+            <div class="input-section">
+                <label for="item">Your Entry:</label>
+                <input type="text" id="item">
+                <button onclick="addItem('player')">Add Entry</button>
+            </div>
+            <div class="options">
+                <input type="checkbox" id="playWithComputer">
+                <label for="playWithComputer">Play with Computer</label>
+                <span id="regularGameTimer">30 seconds</span>
+            </div>
+            <div id="entries">
+                </div>
+            <div id="playerScore">Score: 0</div>
+            <div id="computerScore">Computer Score: 0</div>
+            <button onclick="submitRegularGameEntries()">Submit All</button>
         </div>
+
+        <div id="diceChallengeArea" style="display: none;">
+            <h2>Dice Challenge</h2>
+            <div id="diceRollStartArea">
+                <button onclick="rollDice()">Roll Dice</button>
+                <div id="challengeLetterDisplay">?</div>
+                <span id="challengeTimer">60 seconds</span>
+            </div>
+            <div id="challengeInputs" style="display: none;">
+                <input type="text" id="nameChallenge" placeholder="Name">
+                <input type="text" id="placeChallenge" placeholder="Place">
+                <input type="text" id="animalChallenge" placeholder="Animal">
+                <input type="text" id="thingChallenge" placeholder="Thing">
+                <button onclick="submitDiceChallengeEntries()">Submit</button>
+            </div>
+            <div id="diceChallengeResults"></div>
+        </div>
+
+        <div id="wordSafariArea" style="display: none;">
+            <h2>Word Safari</h2>
+            <p>Destination: <span id="currentDestination"></span></p>
+            <div class="clue-container">
+                <label id="category1Label"></label> <span id="category1Clue" style="display: none;"></span><span id="category1JumbleClue" style="display: none;"></span><span id="category1FillClue" style="display: none;"></span> <input type="text" id="safariCategory1">
+            </div>
+            <div class="clue-container">
+                <label id="category2Label"></label> <span id="category2Clue" style="display: none;"></span><span id="category2JumbleClue" style="display: none;"></span><span id="category2FillClue" style="display: none;"></span> <input type="text" id="safariCategory2">
+            </div>
+            <div class="clue-container">
+                <label id="category3Label"></label> <span id="category3Clue" style="display: none;"></span><span id="category3JumbleClue" style="display: none;"></span><span id="category3FillClue" style="display: none;"></span> <input type="text" id="safariCategory3">
+            </div>
+            <div class="clue-container">
+                <label id="category4Label"></label> <span id="category4Clue" style="display: none;"></span><span id="category4JumbleClue" style="display: none;"></span><span id="category4FillClue" style="display: none;"></span> <input type="text" id="safariCategory4">
+            </div>
+            <button onclick="submitSafariEntries()">Submit Entries</button>
+            <div id="passportArea">
+                <h3>Passport Stamps:</h3>
+                <div id="stampsDisplay"></div>
+            </div>
+        </div>
+    </div>
 
     <div id="gameIssueTroubleshooter" style="display: none; position: fixed; bottom: 20px; left: 20px; background-color: #f0f0f0; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
         <p>Experiencing game issues?</p>
