@@ -10,6 +10,7 @@ import * as auth from './auth.js';
 import * as gameNav from './gameNavigation.js';
 import * as regularGame from './regularGame.js';
 import * as ui from './uiUpdates.js';
+import * as diceChallenge from './diceChallenge.js'; // Import the diceChallenge module
 import { loadEntries } from './game-logic.js';
 import { displayScores } from './game-ui.js';
 import './serviceWorkerRegistration.js';
@@ -30,12 +31,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const diceChallengeButton = document.getElementById('diceChallengeBtn');
     if (diceChallengeButton) {
-        diceChallengeButton.addEventListener('click', navigateToDiceChallenge);
+        diceChallengeButton.addEventListener('click', handleNavigateToDiceChallenge); // Use wrapper
     }
 
     const wordSafariButton = document.getElementById('wordSafariBtn');
     if (wordSafariButton) {
         wordSafariButton.addEventListener('click', navigateToWordSafari);
+    }
+
+    const rollDiceButton = document.getElementById('rollDiceBtn');
+    if (rollDiceButton) {
+        rollDiceButton.addEventListener('click', handleRollDice); // Use wrapper
     }
 });
 
@@ -47,12 +53,16 @@ function navigateToRegularGame() {
     gameNav.switchToRegularGame();
 }
 
-function navigateToDiceChallenge() {
+function handleNavigateToDiceChallenge() { // Wrapper for navigating to Dice
     gameNav.switchToDiceChallenge();
 }
 
 function navigateToWordSafari() {
     gameNav.switchToWordSafari();
+}
+
+function handleRollDice() { // Wrapper for calling rollDice
+    diceChallenge.rollDice();
 }
 
 function startRegularGame() {
