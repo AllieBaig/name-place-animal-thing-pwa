@@ -35,6 +35,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (diceChallengeButton) {
         diceChallengeButton.addEventListener('click', handleNavigateToDiceChallenge);
     }
+    
+    const wordRelicButton = document.getElementById('wordRelicBtn');
+if (wordRelicButton) {
+    wordRelicButton.addEventListener('click', navigateToWordRelic);
+}
+
 
     const wordSafariButton = document.getElementById('wordSafariBtn');
     if (wordSafariButton) {
