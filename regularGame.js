@@ -2,6 +2,7 @@
 
 import { calculateScore } from './game-logic.js';
 import { displayEntries, displayScores } from './uiUpdates.js';
+import { attachSafeClickListener, logError } from './error-handler.js'; // Import error handling
 
 let regularGameTimerInterval;
 let regularGameTimeLeft = 30; // Time limit in seconds
@@ -33,11 +34,18 @@ function switchToRegularGame() {
     document.getElementById('diceChallengeArea').style.display = 'none';
     document.getElementById('regularGameArea').style.display = 'block';
     const playWithComputerCheckbox = document.getElementById('playWithComputer');
-    if (playWithComputerCheckbox.checked) {
-        startRegularGameTimer();
+    if (playWithComputerCheckbox && !playWithComputerCheckbox.__safeClickListenerAttached) {
+        playWithComputerCheckbox.addEventListener('change', handlePlayWithComputerChange);
+        playWithComputerCheckbox.__safeClickListenerAttached = true; // Prevent duplicate attachment
     }
     displayEntries(); // Ensure entries are displayed when switching back
     displayScores(); // Ensure scores are displayed
+    startRegularGameTimer(); // Start timer when navigating to regular game
+}
+
+function handlePlayWithComputerChange(event) {
+    console.log("Play with computer:", event.target.checked);
+    // Add any logic you need to handle the checkbox change
 }
 
 function submitRegularGameEntries() {
@@ -142,5 +150,6 @@ export {
     updateRegularGameTimerDisplay,
     switchToRegularGame,
     submitRegularGameEntries,
-    addItemRegularGame
+    addItemRegularGame,
+    handlePlayWithComputerChange // Export the handler if needed elsewhere
 };
