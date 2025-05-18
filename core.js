@@ -70,6 +70,13 @@ function handleNavigateToDiceChallenge() {
     gameNav.switchToDiceChallenge();
 }
 
+function navigateToWordRelic() {
+    gameNav.switchToWordRelic();
+    wordRelic.initializeWordRelic(); // Initialize Word Relic functionality
+}
+
+
+
 function navigateToWordSafari() {
     gameNav.switchToWordSafari();
 }
