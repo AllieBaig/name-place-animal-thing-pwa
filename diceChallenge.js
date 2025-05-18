@@ -1,101 +1,140 @@
 // diceChallenge.js
 
-let currentLetter = '?';
-let challengeTimerInterval;
-let timeLeft = 60;
-const challengeLetterDisplay = document.getElementById('challengeLetterDisplay');
-const challengeTimerDisplay = document.getElementById('challengeTimer');
-const challengeInputsDiv = document.getElementById('challengeInputs');
-const diceRollStartArea = document.getElementById('diceRollStartArea');
-const diceChallengeResultsDiv = document.getElementById('diceChallengeResults');
+import { getRandomNumber } from './utils.js';
+import { attachSafeClickListener, logError } from './error-handler.js';
+
+let dice = [];
+let heldDice = [false, false, false, false, false];
+let rollsLeft = 3;
+let currentScore = 0;
+
+function resetDiceGame() {
+    dice = [0, 0, 0, 0, 0];
+    heldDice = [false, false, false, false, false];
+    rollsLeft = 3;
+    currentScore = 0;
+    updateDiceDisplay();
+    updateRollsLeftDisplay();
+    updateScoreDisplay();
+    enableRollButton();
+    disableSubmitButton();
+    resetHoldButtons();
+}
 
 function rollDice() {
-    if (diceRollStartArea) {
-        diceRollStartArea.style.display = 'none';
-    }
-    if (challengeInputsDiv) {
-        challengeInputsDiv.style.display = 'block';
-    }
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const randomIndex = Math.floor(Math.random() * alphabet.length);
-    currentLetter = alphabet[randomIndex];
-    if (challengeLetterDisplay) {
-        challengeLetterDisplay.textContent = currentLetter;
-    }
-    startChallengeTimer();
-}
-
-function startChallengeTimer() {
-    timeLeft = 60;
-    if (challengeTimerDisplay) {
-        challengeTimerDisplay.textContent = timeLeft;
-    }
-    challengeTimerInterval = setInterval(() => {
-        timeLeft--;
-        if (challengeTimerDisplay) {
-            challengeTimerDisplay.textContent = timeLeft;
-        }
-        if (timeLeft <= 0) {
-            clearInterval(challengeTimerInterval);
-            if (challengeInputsDiv) {
-                challengeInputsDiv.style.display = 'none';
+    if (rollsLeft > 0) {
+        for (let i = 0; i < dice.length; i++) {
+            if (!heldDice[i]) {
+                dice[i] = getRandomNumber(1, 6);
             }
-            // Optionally display results or move to the next phase
-            displayDiceChallengeResults();
         }
-    }, 1000);
-}
-
-function submitDiceChallengeEntries() {
-    clearInterval(challengeTimerInterval);
-    const name = document.getElementById('nameChallenge').value.trim();
-    const place = document.getElementById('placeChallenge').value.trim();
-    const animal = document.getElementById('animalChallenge').value.trim();
-    const thing = document.getElementById('thingChallenge').value.trim();
-
-    const results = {
-        Name: { entry: name, score: name.startsWith(currentLetter) ? 10 : 0 },
-        Place: { entry: place, score: place.startsWith(currentLetter) ? 10 : 0 },
-        Animal: { entry: animal, score: animal.startsWith(currentLetter) ? 10 : 0 },
-        Thing: { entry: thing, score: thing.startsWith(currentLetter) ? 10 : 0 },
-    };
-
-    displayDiceChallengeResults(results);
-}
-
-function displayDiceChallengeResults(results) {
-    let resultsHTML = '<h3>Dice Challenge Results:</h3>';
-    if (results) {
-        let totalScore = 0;
-        for (const category in results) {
-            resultsHTML += `<p>${category}: ${results[category].entry} (${results[category].score} points)</p>`;
-            totalScore += results[category].score;
+        rollsLeft--;
+        updateDiceDisplay();
+        updateRollsLeftDisplay();
+        if (rollsLeft === 0) {
+            disableRollButton();
+            enableSubmitButton();
         }
-        resultsHTML += `<h4>Total Score: ${totalScore}</h4>`;
-    } else {
-        resultsHTML += '<p>Time ran out! No entries submitted.</p>';
-    }
-
-    if (diceChallengeResultsDiv) {
-        diceChallengeResultsDiv.innerHTML = resultsHTML;
-    }
-    if (diceRollStartArea) {
-        diceRollStartArea.style.display = 'block'; // Allow another round
-    }
-    if (challengeInputsDiv) {
-        challengeInputsDiv.style.display = 'none'; // Hide inputs after results
     }
 }
 
-// Initialization (if needed)
-if (challengeInputsDiv) {
-    challengeInputsDiv.style.display = 'none'; // Initially hide input fields
-}
-if (challengeLetterDisplay) {
-    challengeLetterDisplay.textContent = currentLetter; // Initial display
-}
-if (challengeTimerDisplay) {
-    challengeTimerDisplay.textContent = timeLeft; // Initial time
+function toggleHold(event) {
+    const index = event.target.dataset.index;
+    if (index !== undefined) {
+        heldDice[index] = !heldDice[index];
+        updateDiceHoldDisplay(index);
+    }
 }
 
-export { rollDice, submitDiceChallengeEntries };
+function submitDiceScore() {
+    // Basic scoring logic: sum of all dice
+    currentScore = dice.reduce((sum, die) => sum + die, 0);
+    updateScoreDisplay();
+    disableRollButton();
+    enableSubmitButton(); // Keep submit enabled for now
+    // In a real game, you'd have more complex scoring rules
+}
+
+function updateDiceDisplay() {
+    const diceElements = document.querySelectorAll('.dice');
+    diceElements.forEach((die, index) => {
+        die.textContent = dice[index];
+    });
+}
+
+function updateRollsLeftDisplay() {
+    const rollsLeftDisplay = document.getElementById('rollsLeft');
+    if (rollsLeftDisplay) {
+        rollsLeftDisplay.textContent = rollsLeft;
+    }
+}
+
+function updateScoreDisplay() {
+    const scoreDisplay = document.getElementById('diceScore');
+    if (scoreDisplay) {
+        scoreDisplay.textContent = currentScore;
+    }
+}
+
+function updateDiceHoldDisplay(index) {
+    const diceElement = document.querySelector(`.dice[data-index="${index}"]`);
+    if (diceElement) {
+        diceElement.classList.toggle('held');
+    }
+}
+
+function enableRollButton() {
+    const rollButton = document.getElementById('rollDiceBtn');
+    if (rollButton) {
+        rollButton.disabled = false;
+    }
+}
+
+function disableRollButton() {
+    const rollButton = document.getElementById('rollDiceBtn');
+    if (rollButton) {
+        rollButton.disabled = true;
+    }
+}
+
+function enableSubmitButton() {
+    const submitButton = document.getElementById('submitDiceScoreBtn');
+    if (submitButton) {
+        submitButton.disabled = false;
+    }
+}
+
+function disableSubmitButton() {
+    const submitButton = document.getElementById('submitDiceScoreBtn');
+    if (submitButton) {
+        submitButton.disabled = true;
+    }
+}
+
+function resetHoldButtons() {
+    const diceElements = document.querySelectorAll('.dice');
+    diceElements.forEach(die => {
+        die.classList.remove('held');
+    });
+}
+
+function initializeDiceChallenge() {
+    const rollDiceButton = document.getElementById('rollDiceBtn');
+    if (rollDiceButton) {
+        attachSafeClickListener(rollDiceButton, rollDice, 'rollDiceBtn');
+    }
+
+    const submitDiceScoreButton = document.getElementById('submitDiceScoreBtn');
+    if (submitDiceScoreButton) {
+        attachSafeClickListener(submitDiceScoreButton, submitDiceScore, 'submitDiceScoreBtn');
+    }
+
+    const diceElements = document.querySelectorAll('.dice');
+    diceElements.forEach(die => {
+        attachSafeClickListener(die, toggleHold, `dice-${die.dataset.index}`);
+    });
+
+    resetDiceGame(); // Initialize the game state
+}
+
+export { resetDiceGame, rollDice, toggleHold, submitDiceScore, initializeDiceChallenge };
