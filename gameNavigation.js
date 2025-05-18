@@ -38,4 +38,15 @@ function switchToWordSafari() {
     startWordSafari(); // This calls loadDailySafariContent and displayPassportStamps
 }
 
-export { switchToRegularGame, switchToDiceChallenge, switchToWordSafari };
+
+
+function switchToWordRelic() {
+    document.getElementById('regularGameArea').style.display = 'none';
+    document.getElementById('diceChallengeArea').style.display = 'none';
+    document.getElementById('wordSafariArea').style.display = 'none';
+    document.getElementById('wordRelicArea').style.display = 'block'; // Show Word Relic
+}
+
+export { switchToRegularGame, switchToDiceChallenge, switchToWordSafari, switchToWordRelic };
+
+
