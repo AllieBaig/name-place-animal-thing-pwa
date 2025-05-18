@@ -1,117 +1,110 @@
-/*!
- * Name, Place, Animal, Thing PWA
- * Copyright (c) 2025 AllieBaig
- *
- * This software is licensed under the MIT License.
- * See LICENSE file for details: https://github.com/AllieBaig/name-place-animal-thing-pwa/blob/main/LICENSE
- */
+// core.js
 
-import * as auth from './auth.js';
 import * as gameNav from './gameNavigation.js';
 import * as regularGame from './regularGame.js';
-import * as ui from './uiUpdates.js';
 import * as diceChallenge from './diceChallenge.js';
+import * as wordSafari from './wordSafari.js';
 import * as wordRelic from './wordRelic.js';
-import * as wordSafari from './wordSafari.js'; // Import the wordSafari module
-import { loadEntries } from './game-logic.js';
-import { displayScores } from './game-ui.js';
-import './serviceWorkerRegistration.js';
+import * as auth from './auth.js';
+import * as uiUpdates from './uiUpdates.js';
+import { attachSafeClickListener, attachSafeTouchStartListener, logError } from './error-handler.js'; // Import error handling
 
 document.addEventListener('DOMContentLoaded', () => {
-    loadEntries();
-    displayScores();
+    console.log('DOM is fully loaded and parsed');
 
-    const guestLoginButton = document.getElementById('guestLoginBtn');
-    if (guestLoginButton) {
-        guestLoginButton.addEventListener('click', handleGuestLogin);
-    }
-
+    // --- Navigation Buttons ---
     const regularGameButton = document.getElementById('regularGameBtn');
     if (regularGameButton) {
-        regularGameButton.addEventListener('click', navigateToRegularGame);
+        attachSafeClickListener(regularGameButton, navigateToRegularGame, 'regularGameBtn');
     }
 
     const diceChallengeButton = document.getElementById('diceChallengeBtn');
     if (diceChallengeButton) {
-        diceChallengeButton.addEventListener('click', handleNavigateToDiceChallenge);
+        attachSafeClickListener(diceChallengeButton, navigateToDiceChallenge, 'diceChallengeBtn');
     }
-    
-    const wordRelicButton = document.getElementById('wordRelicBtn');
-if (wordRelicButton) {
-    wordRelicButton.addEventListener('click', navigateToWordRelic);
-}
-
 
     const wordSafariButton = document.getElementById('wordSafariBtn');
     if (wordSafariButton) {
-        wordSafariButton.addEventListener('click', navigateToWordSafari);
+        attachSafeClickListener(wordSafariButton, navigateToWordSafari, 'wordSafariBtn');
     }
 
+    const wordRelicButton = document.getElementById('wordRelicBtn');
+    if (wordRelicButton) {
+        attachSafeClickListener(wordRelicButton, navigateToWordRelic, 'wordRelicBtn');
+    }
+
+    // --- Game Mode Initialization (Move initialization calls here) ---
+    // Regular Game (Listeners within regularGame.js)
+    const playWithComputerCheckbox = document.getElementById('playWithComputer');
+    if (playWithComputerCheckbox) {
+        // Example of attaching a listener using the safe function
+        playWithComputerCheckbox.addEventListener('change', regularGame.handlePlayWithComputerChange);
+    }
+    const submitRegularButton = document.getElementById('submitRegularEntries');
+    if (submitRegularButton) {
+        attachSafeClickListener(submitRegularButton, regularGame.submitRegularGameEntries, 'submitRegularEntries');
+    }
+
+    // Dice Challenge (Listeners within diceChallenge.js)
     const rollDiceButton = document.getElementById('rollDiceBtn');
     if (rollDiceButton) {
-        rollDiceButton.addEventListener('click', handleRollDice);
+        attachSafeClickListener(rollDiceButton, diceChallenge.rollDice, 'rollDiceBtn');
+    }
+    const submitDiceScoreButton = document.getElementById('submitDiceScoreBtn');
+    if (submitDiceScoreButton) {
+        attachSafeClickListener(submitDiceScoreButton, diceChallenge.submitDiceScore, 'submitDiceScoreBtn');
+    }
+    document.querySelectorAll('.dice-choice').forEach(dice => {
+        dice.addEventListener('click', diceChallenge.toggleHold);
+    });
+
+    // Word Safari (Initialization within wordSafari.js)
+    wordSafari.initializeWordSafari();
+    const submitSafariWordButton = document.getElementById('submitSafariWordBtn');
+    if (submitSafariWordButton) {
+        attachSafeClickListener(submitSafariWordButton, wordSafari.submitWord, 'submitSafariWordBtn');
     }
 
-    const surpriseMeButton = document.getElementById('surpriseMeBtn');
-    if (surpriseMeButton) {
-        surpriseMeButton.addEventListener('click', handleSurpriseMe); // Add listener for Surprise Me
+    // Word Relic (Initialization within wordRelic.js)
+    wordRelic.initializeWordRelic();
+    const findRelicButton = document.getElementById('findRelicBtn');
+    if (findRelicButton) {
+        attachSafeClickListener(findRelicButton, wordRelic.displayRelicClue, 'findRelicBtn');
     }
+    document.querySelectorAll('#categoryGuessArea button').forEach(button => {
+        attachSafeClickListener(button, function() {
+            wordRelic.selectCategory(this.textContent);
+        }, `categoryButton-${this.textContent}`);
+    });
+    const restoreRelicButton = document.getElementById('restoreRelicBtn');
+    if (restoreRelicButton) {
+        attachSafeClickListener(restoreRelicButton, wordRelic.restoreRelic, 'restoreRelicBtn');
+    }
+
+    // --- Initial UI Setup ---
+    gameNav.switchToRegularGame(); // Default view on load (can be changed)
+    auth.handleGuestLogin();
+    uiUpdates.displayEntries();
+    uiUpdates.displayScores();
 });
 
-function handleGuestLogin() {
-    auth.guestLogin();
-}
-
+// --- Navigation Functions ---
 function navigateToRegularGame() {
     gameNav.switchToRegularGame();
+    regularGame.startRegularGameTimer(); // Start timer when navigating to regular game
 }
 
-function handleNavigateToDiceChallenge() {
+function navigateToDiceChallenge() {
     gameNav.switchToDiceChallenge();
+    diceChallenge.resetDiceGame();
+}
+
+function navigateToWordSafari() {
+    gameNav.switchToWordSafari();
+    wordSafari.startGame();
 }
 
 function navigateToWordRelic() {
     gameNav.switchToWordRelic();
-    wordRelic.initializeWordRelic(); // Initialize Word Relic functionality
-}
-
-
-
-function navigateToWordSafari() {
-    gameNav.switchToWordSafari();
-}
-
-function handleRollDice() {
-    diceChallenge.rollDice();
-}
-
-function handleSurpriseMe() { // Wrapper for calling surpriseMe
-    wordSafari.surpriseMe();
-}
-
-function startRegularGame() {
-    regularGame.startRegularGameTimer();
-}
-
-function submitRegularEntries() {
-    regularGame.submitRegularGameEntries();
-}
-
-function addRegularItem(category) {
-    const itemInput = document.getElementById('item');
-    if (itemInput) {
-        regularGame.addItem('player', category, itemInput.value);
-        itemInput.value = '';
-    }
-}
-
-function displayJavaScriptBlockedMessage() {
-    const appContent = document.getElementById('appContent');
-    if (appContent) {
-        appContent.innerHTML = '<p style="color: red;">JavaScript is disabled. Please enable it to play the game.</p>';
-    }
-}
-
-if (typeof document.querySelector === 'undefined') {
-    displayJavaScriptBlockedMessage();
+    // Initialization of Word Relic is done in the DOMContentLoaded
 }
