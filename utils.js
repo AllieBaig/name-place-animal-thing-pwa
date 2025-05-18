@@ -39,3 +39,11 @@ export function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+export function getRandomElement(array) {
+    return array[Math.floor(Math.random() * array.length)];
+}
+
+// You can remove the 'utils' object if you are only exporting individual functions
+// or you can keep it and export it as well if you have other properties:
+// export default utils;
+
