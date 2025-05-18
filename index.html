@@ -19,6 +19,36 @@
         <button id="regularGameBtn">Play Regular Game</button>
         <button id="diceChallengeBtn">Play Dice Challenge</button>
         <button id="wordSafariBtn">Play Word Safari</button>
+      
+    
+    
+    <div id="wordRelicArea" style="display: none;">
+            <h2>Mystery Word Relic</h2>
+            <p id="relicClue"></p>
+
+            <div id="categoryGuessArea" style="display: none;">
+                <p>Guess the Category:</p>
+                <button>Name</button>
+                <button>Place</button>
+                <button>Animal</button>
+                <button>Thing</button>
+                <p id="selectedCategory"></p>
+            </div>
+
+            <div id="wordGuessArea">
+                <label for="wordGuess">Your Word Guess:</label>
+                <input type="text" id="wordGuess">
+                <button id="restoreRelicBtn" disabled>Restore Relic</button>
+            </div>
+
+            <div id="relicInfo" style="display: none;">
+                </div>
+
+            <button id="findRelicBtn">Find Today's Relic</button>
+        </div>
+
+
+        
 
         <div id="regularGameArea" style="display: none;">
             <h2>Play Name, Place, Animal, Thing</h2>
