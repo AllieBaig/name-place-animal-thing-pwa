@@ -1,3 +1,10 @@
+
+
+// utils.js
+
+
+
+
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const allCategories = ['Name', 'Place', 'Animal', 'Thing', 'Film', 'TV Show', 'Book', 'Song'];
 const scrabbleLetterValues = {
@@ -25,3 +32,11 @@ const diceFaces = [
     ` _____ `, `| • • |`, `|  •  |`, `| • • |`, `|_____|`,
     ` _____ `, `| • • |`, `| • • |`, `| • • |`, `|_____|`,
 ];
+
+
+
+// utils.js
+function getRandomElement(array) {
+    return array[Math.floor(Math.random() * array.length)];
+}
+
