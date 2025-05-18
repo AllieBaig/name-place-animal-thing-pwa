@@ -11,6 +11,7 @@ import * as gameNav from './gameNavigation.js';
 import * as regularGame from './regularGame.js';
 import * as ui from './uiUpdates.js';
 import * as diceChallenge from './diceChallenge.js';
+import * as wordRelic from './wordRelic.js';
 import * as wordSafari from './wordSafari.js'; // Import the wordSafari module
 import { loadEntries } from './game-logic.js';
 import { displayScores } from './game-ui.js';
